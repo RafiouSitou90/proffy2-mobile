@@ -1,6 +1,10 @@
 import { StatusBar } from "expo-status-bar"
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
+import { SafeAreaProvider } from "react-native-safe-area-context"
+
+import { LoadAssets } from "./src/components"
+import { ThemeProvider } from "./src/theme"
 
 const fonts = {
 	"Archivo-Bold": require("./assets/fonts/Archivo-Bold.ttf"),
@@ -13,12 +17,20 @@ const fonts = {
 	"Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
 }
 
-export default function App() {
+const App = () => {
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.tsx to start working on your app!</Text>
-			<StatusBar style="auto" />
-		</View>
+		<ThemeProvider>
+			<LoadAssets {...{ fonts }}>
+				<SafeAreaProvider>
+					<View style={styles.container}>
+						<Text>
+							Open up App.tsx to start working on your app!
+						</Text>
+						<StatusBar style="auto" />
+					</View>
+				</SafeAreaProvider>
+			</LoadAssets>
+		</ThemeProvider>
 	)
 }
 
@@ -30,3 +42,5 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 })
+
+export default App
