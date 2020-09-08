@@ -16,6 +16,7 @@ export const palette = {
 	lightGreen: "#24EF7F",
 	darkGreen: "#04D361",
 	red: "#E33D3D",
+	white: "#FFFFFF",
 }
 
 const theme = createTheme({
@@ -27,6 +28,7 @@ const theme = createTheme({
 		secondary: palette.darkGreen,
 		lightGreen: palette.lightGreen,
 		red: palette.red,
+		white: palette.white,
 	},
 	spacing: {
 		zero: 0,
