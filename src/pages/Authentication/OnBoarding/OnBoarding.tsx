@@ -1,5 +1,6 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Dimensions, Image, ImageBackground, StyleSheet } from "react-native"
+import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 import Animated, {
 	divide,
 	Extrapolate,
@@ -13,6 +14,8 @@ import bgImage_2 from "../../../assets/images/bgImage_2.png"
 
 import slide_02 from "../../../assets/images/icons/give-classes.png"
 import slide_01 from "../../../assets/images/icons/study.png"
+
+import arrowRight from "../../../assets/images/arrow-right.png"
 
 import { Box, makeStyles, palette, Theme, useTheme } from "../../../theme"
 
@@ -67,6 +70,9 @@ const OnBoarding = () => {
 	const theme = useTheme()
 	const scroll = useRef<Animated.ScrollView>(null)
 	const { scrollHandler, x } = useScrollHandler()
+
+	const [last, setLast] = useState(false)
+	const [index, setIndex] = useState<number>(0)
 
 	const backgroundColor = interpolateColor(x, {
 		inputRange: slides.map((_, i) => i * width),
@@ -140,16 +146,6 @@ const OnBoarding = () => {
 					}}
 				/>
 				<Box style={styles.footerContent}>
-					<Box style={styles.pagination}>
-						{slides.map((_, index) => (
-							<Dot
-								key={index}
-								currentIndex={divide(x, width)}
-								{...{ index }}
-							/>
-						))}
-					</Box>
-
 					<Animated.View
 						style={{
 							flex: 1,
@@ -158,7 +154,7 @@ const OnBoarding = () => {
 							transform: [{ translateX: multiply(x, -1) }],
 						}}
 					>
-						{slides.map(({ subtitle, description }, index) => {
+						{slides.map(({ label, description }, index) => {
 							const last = index === slides.length - 1
 							return (
 								<SubSlide
@@ -173,11 +169,54 @@ const OnBoarding = () => {
 											})
 										}
 									}}
-									{...{ subtitle, description, last }}
+									{...{ label, description, last }}
 								/>
 							)
 						})}
 					</Animated.View>
+					<Box
+						flex={0.3}
+						flexDirection="row"
+						justifyContent="space-between"
+						alignItems="center"
+						marginHorizontal="l"
+					>
+						<Box style={[styles.pagination, { width: "50%" }]}>
+							{slides.map((_, index) => (
+								<Dot
+									key={index}
+									currentIndex={divide(x, width)}
+									{...{ index }}
+								/>
+							))}
+						</Box>
+						<Box>
+							<BorderlessButton
+								onPress={() => {
+									if (last) {
+										alert("Last")
+									} else {
+										scroll.current?.getNode().scrollTo({
+											x: width * (index + 1),
+											animated: true,
+										})
+									}
+								}}
+								style={{
+									justifyContent: "center",
+									alignItems: "center",
+								}}
+							>
+								<Image
+									source={arrowRight}
+									style={{
+										width: 74,
+										height: 40,
+									}}
+								/>
+							</BorderlessButton>
+						</Box>
+					</Box>
 				</Box>
 			</Box>
 		</Box>
@@ -205,11 +244,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 		flex: 1,
 		backgroundColor: "#E5E5E5",
 	},
+
 	pagination: {
-		...StyleSheet.absoluteFillObject,
+		// ...StyleSheet.absoluteFillObject,
 		flexDirection: "row",
 		height: theme.borderRadii.xl,
-		justifyContent: "center",
+		justifyContent: "flex-start",
 		alignItems: "center",
 	},
 }))
