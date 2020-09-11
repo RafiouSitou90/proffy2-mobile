@@ -2,6 +2,8 @@ import { StatusBar } from "expo-status-bar"
 import React from "react"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
+import { assets as authenticationAssets } from "./src/routes/Authentication"
+
 import { LoadAssets } from "./src/components"
 import { AppNavigator } from "./src/routes"
 import { ThemeProvider } from "./src/theme"
@@ -17,10 +19,12 @@ const fonts = {
 	"Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
 }
 
+const assets = [...authenticationAssets]
+
 const App = () => {
 	return (
 		<ThemeProvider>
-			<LoadAssets {...{ fonts }}>
+			<LoadAssets {...{ fonts, assets }}>
 				<SafeAreaProvider>
 					<AppNavigator />
 					<StatusBar style="light" />

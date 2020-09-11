@@ -4,6 +4,7 @@ import {
 } from "@react-navigation/stack"
 import React from "react"
 import { OnBoarding } from "../pages"
+import { assets as OnBoardingAssets } from "../pages/Authentication"
 // import { CompositeNavigationProp, RouteProp } from "@react-navigation/native"
 
 export type AuthenticationRoutes = {
@@ -17,6 +18,8 @@ export type AuthenticationRoutes = {
 // 	>
 // 	route: RouteProp<AuthenticationRoutes, RouteName>
 // }
+
+export const assets = [...OnBoardingAssets]
 
 const AuthenticationStack = createStackNavigator<AuthenticationRoutes>()
 

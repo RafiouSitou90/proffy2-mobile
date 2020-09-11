@@ -53,10 +53,7 @@ const slides = [
 	},
 ]
 
-export const assets = slides.map((slide) => [
-	slide.image.src,
-	slide.backgroundImage.src,
-])
+export const assets = slides.map((slide) => slide.image.src)
 
 const { width, height } = Dimensions.get("window")
 
