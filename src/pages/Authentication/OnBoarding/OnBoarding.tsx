@@ -146,24 +146,20 @@ const OnBoarding = ({
 						{slides.map(({ label, description }, index) => {
 							const last = index === slides.length - 1
 							return (
-								<>
-									<SubSlide
-										key={index}
-										onPress={() => {
-											if (last) {
-												navigation.navigate("Login")
-											} else {
-												scroll.current
-													?.getNode()
-													.scrollTo({
-														x: width * (index + 1),
-														animated: true,
-													})
-											}
-										}}
-										{...{ label, description, last }}
-									/>
-								</>
+								<SubSlide
+									key={index}
+									onPress={() => {
+										if (last) {
+											navigation.navigate("Login")
+										} else {
+											scroll.current?.getNode().scrollTo({
+												x: width * (index + 1),
+												animated: true,
+											})
+										}
+									}}
+									{...{ label, description, last }}
+								/>
 							)
 						})}
 					</Animated.View>
