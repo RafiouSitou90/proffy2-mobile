@@ -43,6 +43,9 @@ const theme = createTheme({
 		white: palette.white,
 		grayBackground: palette.gray,
 		melRose: palette.melRose,
+		martinique: palette.martinique,
+		santaGray: palette.santaGray,
+		mischka: palette.mischka,
 	},
 	spacing: {
 		zero: 0,
