@@ -19,6 +19,7 @@ import { Box, makeStyles, palette, Theme } from "../../../theme"
 import Dot from "./Dot"
 import Slide from "./Slide"
 import SubSlide from "./SubSlide"
+import { AuthenticationNavigationProps } from "../../../routes/Authentication"
 
 const slides = [
 	{
@@ -59,7 +60,9 @@ const { width, height } = Dimensions.get("window")
 
 export const SLIDE_HEIGHT = 0.4 * height
 
-const OnBoarding = () => {
+const OnBoarding = ({
+	navigation,
+}: AuthenticationNavigationProps<"OnBoarding">) => {
 	const styles = useStyles()
 	const scroll = useRef<Animated.ScrollView>(null)
 	const { scrollHandler, x } = useScrollHandler()
@@ -148,7 +151,7 @@ const OnBoarding = () => {
 										key={index}
 										onPress={() => {
 											if (last) {
-												alert("Last")
+												navigation.navigate("Login")
 											} else {
 												scroll.current
 													?.getNode()
@@ -180,32 +183,6 @@ const OnBoarding = () => {
 								/>
 							))}
 						</Box>
-						{/*						<Box>
-							<BorderlessButton
-								onPress={() => {
-									if (last) {
-										alert("Last")
-									} else {
-										scroll.current?.getNode().scrollTo({
-											x: width * (index + 1),
-											animated: true,
-										})
-									}
-								}}
-								style={{
-									justifyContent: "center",
-									alignItems: "center",
-								}}
-							>
-								<Image
-									source={arrowRight}
-									style={{
-										width: 74,
-										height: 40,
-									}}
-								/>
-							</BorderlessButton>
-						</Box>*/}
 					</Box>
 				</Box>
 			</Box>
