@@ -19,6 +19,7 @@ import { Box, makeStyles, palette, Theme } from "../../../theme"
 import Dot from "./Dot"
 import Slide from "./Slide"
 import SubSlide from "./SubSlide"
+import { AuthenticationNavigationProps } from "../../../routes/Authentication"
 
 const slides = [
 	{
@@ -37,7 +38,7 @@ const slides = [
 		},
 	},
 	{
-		color: palette.lightGreen,
+		color: palette.darkGreen,
 		label: "02.",
 		description: "Or give classes on what you know best",
 		image: {
@@ -53,16 +54,15 @@ const slides = [
 	},
 ]
 
-export const assets = slides.map((slide) => [
-	slide.image.src,
-	slide.backgroundImage.src,
-])
+export const assets = slides.map((slide) => slide.image.src)
 
 const { width, height } = Dimensions.get("window")
 
 export const SLIDE_HEIGHT = 0.4 * height
 
-const OnBoarding = () => {
+const OnBoarding = ({
+	navigation,
+}: AuthenticationNavigationProps<"OnBoarding">) => {
 	const styles = useStyles()
 	const scroll = useRef<Animated.ScrollView>(null)
 	const { scrollHandler, x } = useScrollHandler()
@@ -146,24 +146,20 @@ const OnBoarding = () => {
 						{slides.map(({ label, description }, index) => {
 							const last = index === slides.length - 1
 							return (
-								<>
-									<SubSlide
-										key={index}
-										onPress={() => {
-											if (last) {
-												alert("Last")
-											} else {
-												scroll.current
-													?.getNode()
-													.scrollTo({
-														x: width * (index + 1),
-														animated: true,
-													})
-											}
-										}}
-										{...{ label, description, last }}
-									/>
-								</>
+								<SubSlide
+									key={index}
+									onPress={() => {
+										if (last) {
+											navigation.navigate("Login")
+										} else {
+											scroll.current?.getNode().scrollTo({
+												x: width * (index + 1),
+												animated: true,
+											})
+										}
+									}}
+									{...{ label, description, last }}
+								/>
 							)
 						})}
 					</Animated.View>
@@ -183,32 +179,6 @@ const OnBoarding = () => {
 								/>
 							))}
 						</Box>
-						{/*						<Box>
-							<BorderlessButton
-								onPress={() => {
-									if (last) {
-										alert("Last")
-									} else {
-										scroll.current?.getNode().scrollTo({
-											x: width * (index + 1),
-											animated: true,
-										})
-									}
-								}}
-								style={{
-									justifyContent: "center",
-									alignItems: "center",
-								}}
-							>
-								<Image
-									source={arrowRight}
-									style={{
-										width: 74,
-										height: 40,
-									}}
-								/>
-							</BorderlessButton>
-						</Box>*/}
 					</Box>
 				</Box>
 			</Box>

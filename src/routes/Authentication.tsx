@@ -1,22 +1,32 @@
 import {
 	createStackNavigator,
-	// StackNavigationProp,
+	StackNavigationProp,
 } from "@react-navigation/stack"
 import React from "react"
-import { OnBoarding } from "../pages"
-// import { CompositeNavigationProp, RouteProp } from "@react-navigation/native"
+import { Login, OnBoarding } from "../pages"
+import { OnBoardingAssets } from "../pages/Authentication"
+import { CompositeNavigationProp, RouteProp } from "@react-navigation/native"
 
 export type AuthenticationRoutes = {
 	OnBoarding: undefined
+	Login: undefined
 }
 
-// export interface AuthenticationNavigationProps<RouteName extends keyof AuthenticationRoutes> {
-// 	navigation: CompositeNavigationProp<
-// 		StackNavigationProp<AuthenticationRoutes, RouteName>,
-// 		StackNavigationProp<HomeRoutes, "Landing">
-// 	>
-// 	route: RouteProp<AuthenticationRoutes, RouteName>
-// }
+export interface AuthenticationNavigationProps<
+	RouteName extends keyof AuthenticationRoutes
+> {
+	navigation: CompositeNavigationProp<
+		StackNavigationProp<AuthenticationRoutes, RouteName>,
+		StackNavigationProp<HomeRoutes, "Home">
+	>
+	route: RouteProp<AuthenticationRoutes, RouteName>
+}
+
+export type HomeRoutes = {
+	Home: undefined
+}
+
+export const assets = [...OnBoardingAssets]
 
 const AuthenticationStack = createStackNavigator<AuthenticationRoutes>()
 
@@ -27,6 +37,7 @@ const AuthenticationNavigator = () => {
 				name="OnBoarding"
 				component={OnBoarding}
 			/>
+			<AuthenticationStack.Screen name="Login" component={Login} />
 		</AuthenticationStack.Navigator>
 	)
 }

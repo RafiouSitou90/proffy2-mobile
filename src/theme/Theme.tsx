@@ -17,6 +17,18 @@ export const palette = {
 	darkGreen: "#04D361",
 	red: "#E33D3D",
 	white: "#FFFFFF",
+	gray: "#E5E5E5",
+	athensGray: "#E6E6F0",
+	whisper: "#EBEBF5",
+	lightWhisper: "#F0F0F7",
+	almostWhite: "#FAFAFA",
+	mischka: "#DCDCE5",
+	martinique: "#32264D",
+	dolphin: "#6A6180",
+	santaGray: "#9C98A6",
+	graySuit: "#C1BCCC",
+	melRose: "#D4C2FF",
+	portage: "#A380F6",
 }
 
 const theme = createTheme({
@@ -29,6 +41,8 @@ const theme = createTheme({
 		lightGreen: palette.lightGreen,
 		red: palette.red,
 		white: palette.white,
+		grayBackground: palette.gray,
+		melRose: palette.melRose,
 	},
 	spacing: {
 		zero: 0,
