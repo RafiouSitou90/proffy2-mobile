@@ -38,7 +38,7 @@ const slides = [
 		},
 	},
 	{
-		color: palette.lightGreen,
+		color: palette.darkGreen,
 		label: "02.",
 		description: "Or give classes on what you know best",
 		image: {
