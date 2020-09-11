@@ -1,8 +1,7 @@
 import React from "react"
-import { Image, StyleSheet } from "react-native"
-import { BorderlessButton } from "react-native-gesture-handler"
-import arrowRight from "../../../assets/images/arrow-right.png"
-import { Box, Text, useTheme } from "../../../theme"
+import { Dimensions, StyleSheet } from "react-native"
+import { Box, Text } from "../../../theme"
+import Button from "./Button"
 
 interface SubSlideProps {
 	label: string
@@ -11,8 +10,9 @@ interface SubSlideProps {
 	onPress: () => void
 }
 
-const SubSlide = ({ label, description, last, onPress }: SubSlideProps) => {
-	const theme = useTheme()
+const { width, height } = Dimensions.get("window")
+
+const SubSlide = ({ label, description, onPress }: SubSlideProps) => {
 	return (
 		<Box
 			flex={1}
@@ -21,11 +21,25 @@ const SubSlide = ({ label, description, last, onPress }: SubSlideProps) => {
 			justifyContent="space-between"
 			marginTop="l"
 		>
-			<Box>
-				<Text style={styles.label}>{label}</Text>
+			<Box flexDirection="column" justifyContent="space-between">
+				<Box>
+					<Text style={styles.label}>{label}</Text>
+				</Box>
+				<Box width={208} marginTop="l">
+					<Text style={styles.description}>{description}</Text>
+				</Box>
 			</Box>
-			<Box width={208} marginTop="l">
-				<Text style={styles.description}>{description}</Text>
+
+			<Box
+				style={{
+					bottom: 0,
+					right: 0,
+					position: "absolute",
+					marginBottom: -height * 0.096,
+					marginRight: width * 0.1,
+				}}
+			>
+				<Button {...{ onPress }} />
 			</Box>
 		</Box>
 	)

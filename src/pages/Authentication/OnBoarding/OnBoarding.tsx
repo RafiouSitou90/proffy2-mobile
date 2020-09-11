@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react"
+import React, { useRef } from "react"
 import { Dimensions, Image, ImageBackground, StyleSheet } from "react-native"
-import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 import Animated, {
 	divide,
 	Extrapolate,
@@ -12,12 +11,10 @@ import { interpolateColor, useScrollHandler } from "react-native-redash"
 import bgImage_1 from "../../../assets/images/bgImage_1.png"
 import bgImage_2 from "../../../assets/images/bgImage_2.png"
 
-import slide_02 from "../../../assets/images/icons/give-classes.png"
-import slide_01 from "../../../assets/images/icons/study.png"
+import slide_02 from "../../../assets/images/teach.png"
+import slide_01 from "../../../assets/images/study.png"
 
-import arrowRight from "../../../assets/images/arrow-right.png"
-
-import { Box, makeStyles, palette, Theme, useTheme } from "../../../theme"
+import { Box, makeStyles, palette, Theme } from "../../../theme"
 
 import Dot from "./Dot"
 import Slide from "./Slide"
@@ -45,8 +42,8 @@ const slides = [
 		description: "Or give classes on what you know best",
 		image: {
 			src: slide_02,
-			width: 100,
-			height: 100,
+			width: 120,
+			height: 120,
 		},
 		backgroundImage: {
 			src: bgImage_2,
@@ -67,12 +64,8 @@ export const SLIDE_HEIGHT = 0.4 * height
 
 const OnBoarding = () => {
 	const styles = useStyles()
-	const theme = useTheme()
 	const scroll = useRef<Animated.ScrollView>(null)
 	const { scrollHandler, x } = useScrollHandler()
-
-	const [last, setLast] = useState(false)
-	const [index, setIndex] = useState<number>(0)
 
 	const backgroundColor = interpolateColor(x, {
 		inputRange: slides.map((_, i) => i * width),
@@ -130,11 +123,7 @@ const OnBoarding = () => {
 					{...scrollHandler}
 				>
 					{slides.map(({ label, image }, index) => (
-						<Slide
-							key={index}
-							right={!!(index % 2)}
-							{...{ label, image }}
-						/>
+						<Slide key={index} {...{ label, image }} />
 					))}
 				</Animated.ScrollView>
 			</Animated.View>
@@ -157,20 +146,24 @@ const OnBoarding = () => {
 						{slides.map(({ label, description }, index) => {
 							const last = index === slides.length - 1
 							return (
-								<SubSlide
-									key={index}
-									onPress={() => {
-										if (last) {
-											navigation.navigate("Welcome")
-										} else {
-											scroll.current?.getNode().scrollTo({
-												x: width * (index + 1),
-												animated: true,
-											})
-										}
-									}}
-									{...{ label, description, last }}
-								/>
+								<>
+									<SubSlide
+										key={index}
+										onPress={() => {
+											if (last) {
+												alert("Last")
+											} else {
+												scroll.current
+													?.getNode()
+													.scrollTo({
+														x: width * (index + 1),
+														animated: true,
+													})
+											}
+										}}
+										{...{ label, description, last }}
+									/>
+								</>
 							)
 						})}
 					</Animated.View>
@@ -190,7 +183,7 @@ const OnBoarding = () => {
 								/>
 							))}
 						</Box>
-						<Box>
+						{/*						<Box>
 							<BorderlessButton
 								onPress={() => {
 									if (last) {
@@ -215,7 +208,7 @@ const OnBoarding = () => {
 									}}
 								/>
 							</BorderlessButton>
-						</Box>
+						</Box>*/}
 					</Box>
 				</Box>
 			</Box>
