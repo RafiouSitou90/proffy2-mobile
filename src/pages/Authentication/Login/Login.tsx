@@ -1,6 +1,8 @@
 import React from "react"
-import { Dimensions } from "react-native"
+import { Dimensions, TextInput } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { Feather as Icon } from "@expo/vector-icons"
 
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
@@ -11,29 +13,134 @@ const Login = () => {
 	const theme = useTheme()
 	return (
 		<Box flex={1} backgroundColor="grayBackground">
-			<Header />
+			<KeyboardAwareScrollView>
+				<Header />
 
-			<Box
-				flexDirection="row"
-				justifyContent="space-between"
-				alignItems="center"
-				marginVertical="l"
-				marginHorizontal="m"
-			>
-				<Box>
-					<Text
+				<Box
+					flexDirection="row"
+					justifyContent="space-between"
+					alignItems="center"
+					marginVertical="l"
+					marginHorizontal="m"
+				>
+					<Box>
+						<Text
+							style={{
+								fontFamily: "Poppins-Regular",
+								fontWeight: "600",
+								fontSize: 24,
+								lineHeight: 34,
+								color: theme.colors.martinique,
+							}}
+						>
+							Login
+						</Text>
+					</Box>
+					<Box>
+						<RectButton
+							onPress={() => true}
+							style={{
+								justifyContent: "center",
+								alignItems: "center",
+								width: width * 0.33,
+								height: 30,
+								borderRadius: 15,
+							}}
+						>
+							<Text
+								style={{
+									fontFamily: "Poppins-Regular",
+									fontWeight: "normal",
+									fontSize: 12,
+									lineHeight: 24,
+									color: theme.colors.primary,
+									borderRadius: theme.borderRadii.s,
+								}}
+							>
+								Create an account
+							</Text>
+						</RectButton>
+					</Box>
+				</Box>
+
+				<Box
+					marginHorizontal="m"
+					style={{
+						borderWidth: 1,
+						borderColor: theme.colors.athensGray,
+						backgroundColor: theme.colors.almostWhite,
+						width: width * 0.85,
+						height: 64,
+						borderTopLeftRadius: theme.borderRadii.ms,
+						borderTopRightRadius: theme.borderRadii.ms,
+					}}
+				>
+					<TextInput />
+				</Box>
+				<Box
+					marginHorizontal="m"
+					style={{
+						borderWidth: 1,
+						borderColor: theme.colors.athensGray,
+						backgroundColor: theme.colors.almostWhite,
+						width: width * 0.85,
+						height: 64,
+						borderBottomLeftRadius: theme.borderRadii.ms,
+						borderBottomRightRadius: theme.borderRadii.ms,
+					}}
+				>
+					<TextInput />
+				</Box>
+
+				<Box
+					flexDirection="row"
+					justifyContent="space-between"
+					alignItems="center"
+					marginTop="ms"
+					marginBottom="l"
+					marginHorizontal="m"
+				>
+					<RectButton
+						onPress={() => true}
 						style={{
-							fontFamily: "Poppins-Regular",
-							fontWeight: "600",
-							fontSize: 24,
-							lineHeight: 34,
-							color: theme.colors.martinique,
+							justifyContent: "center",
+							alignItems: "center",
 						}}
 					>
-						Login
-					</Text>
-				</Box>
-				<Box>
+						<Box
+							flexDirection="row"
+							style={{
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							<Box
+								marginRight="s"
+								width={24}
+								height={24}
+								justifyContent="center"
+								alignItems="center"
+								borderRadius="ms"
+								borderWidth={2}
+								borderColor="secondary"
+								backgroundColor="secondary"
+							>
+								<Icon name="check" color="white" size={18} />
+							</Box>
+							<Text
+								style={{
+									fontFamily: "Poppins-Regular",
+									fontWeight: "normal",
+									fontSize: 12,
+									lineHeight: 24,
+									color: theme.colors.santaGray,
+								}}
+							>
+								Remember me
+							</Text>
+						</Box>
+					</RectButton>
+
 					<RectButton
 						onPress={() => true}
 						style={{
@@ -52,48 +159,45 @@ const Login = () => {
 								lineHeight: 24,
 								color: theme.colors.primary,
 								borderRadius: theme.borderRadii.s,
+								textAlign: "center",
 							}}
 						>
-							Create an account
+							Forgot password
 						</Text>
 					</RectButton>
 				</Box>
-			</Box>
 
-			<Box
-				justifyContent="center"
-				alignItems="center"
-				position="absolute"
-				bottom={0}
-				left={0}
-				right={0}
-				marginBottom="l"
-				marginHorizontal="m"
-			>
-				<RectButton
-					style={{
-						width: width * 0.85,
-						height: 56,
-						borderRadius: theme.borderRadii.ms,
-						backgroundColor: theme.colors.mischka,
-						justifyContent: "center",
-						alignItems: "center",
-					}}
+				<Box
+					justifyContent="center"
+					alignItems="center"
+					marginBottom="m"
+					marginHorizontal="m"
 				>
-					<Text
+					<RectButton
 						style={{
-							fontFamily: "Archivo-Regular",
-							fontWeight: "600",
-							fontSize: 16,
-							lineHeight: 26,
-							textAlign: "center",
-							color: theme.colors.santaGray,
+							width: width * 0.85,
+							height: 56,
+							borderRadius: theme.borderRadii.ms,
+							backgroundColor: theme.colors.mischka,
+							justifyContent: "center",
+							alignItems: "center",
 						}}
 					>
-						Enter
-					</Text>
-				</RectButton>
-			</Box>
+						<Text
+							style={{
+								fontFamily: "Archivo-Regular",
+								fontWeight: "600",
+								fontSize: 16,
+								lineHeight: 26,
+								textAlign: "center",
+								color: theme.colors.santaGray,
+							}}
+						>
+							Enter
+						</Text>
+					</RectButton>
+				</Box>
+			</KeyboardAwareScrollView>
 		</Box>
 	)
 }
