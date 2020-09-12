@@ -47,6 +47,7 @@ const theme = createTheme({
 		martinique: palette.martinique,
 		dolphin: palette.dolphin,
 		santaGray: palette.santaGray,
+		graySuit: palette.graySuit,
 		mischka: palette.mischka,
 		athensGray: palette.athensGray,
 	},

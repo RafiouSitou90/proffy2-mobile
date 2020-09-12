@@ -1,17 +1,19 @@
-import React, { useRef } from "react"
+import { Feather as Icon } from "@expo/vector-icons"
+import React, { useRef, useState } from "react"
 import { Dimensions, TextInput } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import { Feather as Icon } from "@expo/vector-icons"
+import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
 
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
-import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
 
 const { width } = Dimensions.get("window")
 
 const Login = () => {
 	const theme = useTheme()
+
+	const [showPassword, setShowPassword] = useState<boolean>(true)
 
 	const email = useRef<TextInput>(null)
 	const password = useRef<TextInput>(null)
@@ -101,12 +103,25 @@ const Login = () => {
 						ref={password}
 						label="Password"
 						isFocused={false}
-						secureTextEntry={true}
+						secureTextEntry={showPassword}
 						autoCompleteType="password"
 						autoCapitalize="none"
 						returnKeyType="go"
 						returnKeyLabel="Go"
 						onSubmitEditing={() => alert("Submit")}
+						icon={
+							<BorderlessTap
+								onPress={() =>
+									setShowPassword((prevState) => !prevState)
+								}
+							>
+								<Icon
+									name={showPassword ? "eye" : "eye-off"}
+									size={24}
+									color={theme.colors.primary}
+								/>
+							</BorderlessTap>
+						}
 					/>
 				</Box>
 

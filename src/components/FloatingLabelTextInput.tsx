@@ -1,19 +1,17 @@
-import React, { forwardRef, useState } from "react"
-import { TextInput } from "react-native"
+import React, { forwardRef, ReactNode, useState } from "react"
+import { TextInput, TextInputProps } from "react-native"
 import { Box, useTheme, Text } from "../theme"
 
-interface FloatingLabelTextInputProps {
+interface FloatingLabelTextInputProps extends TextInputProps {
 	label: string
-	icon?: string
-	error?: string
-	touched?: boolean
 	isFocused: boolean
+	icon?: ReactNode
 }
 
 const FloatingLabelTextInput = forwardRef<
 	TextInput,
 	FloatingLabelTextInputProps
->(({ label, icon, error, touched, isFocused, ...props }, ref) => {
+>(({ label, icon, isFocused, ...props }, ref) => {
 	const theme = useTheme()
 	const [focused, setFocused] = useState<boolean>(isFocused)
 
@@ -36,11 +34,14 @@ const FloatingLabelTextInput = forwardRef<
 					fontWeight: "normal",
 					fontSize: !focused ? 14 : 10,
 					lineHeight: !focused ? 24 : 20,
-					color: theme.colors.dolphin,
+					color: !focused
+						? theme.colors.dolphin
+						: theme.colors.graySuit,
 				}}
 			>
 				{label}
 			</Text>
+
 			<TextInput
 				{...{ ref }}
 				{...props}
@@ -56,13 +57,28 @@ const FloatingLabelTextInput = forwardRef<
 					position: "absolute",
 					color: theme.colors.dolphin,
 					height: "100%",
-					width: "100%",
+					width: "90%",
 					paddingHorizontal: theme.spacing.ms,
+					marginRight: theme.spacing.xs,
 					textAlignVertical: "bottom",
 					marginTop: 30,
-					marginBottom: 10,
+					paddingBottom: 4,
 				}}
 			/>
+
+			{icon && (
+				<Box
+					justifyContent={"center"}
+					style={{
+						position: "absolute",
+						right: 10,
+						top: 20,
+						paddingHorizontal: 5,
+					}}
+				>
+					{icon}
+				</Box>
+			)}
 		</Box>
 	)
 })
