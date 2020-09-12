@@ -6,6 +6,7 @@ import { Feather as Icon } from "@expo/vector-icons"
 
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
+import { BorderlessTap } from "../../../components"
 
 const { width } = Dimensions.get("window")
 
@@ -37,15 +38,8 @@ const Login = () => {
 						</Text>
 					</Box>
 					<Box>
-						<RectButton
-							onPress={() => true}
-							style={{
-								justifyContent: "center",
-								alignItems: "center",
-								width: width * 0.33,
-								height: 30,
-								borderRadius: 15,
-							}}
+						<BorderlessTap
+							onPress={() => alert("Create an account")}
 						>
 							<Text
 								style={{
@@ -59,7 +53,7 @@ const Login = () => {
 							>
 								Create an account
 							</Text>
-						</RectButton>
+						</BorderlessTap>
 					</Box>
 				</Box>
 
@@ -100,13 +94,7 @@ const Login = () => {
 					marginBottom="l"
 					marginHorizontal="m"
 				>
-					<RectButton
-						onPress={() => true}
-						style={{
-							justifyContent: "center",
-							alignItems: "center",
-						}}
-					>
+					<BorderlessTap onPress={() => alert("Remember me")}>
 						<Box
 							flexDirection="row"
 							style={{
@@ -139,32 +127,23 @@ const Login = () => {
 								Remember me
 							</Text>
 						</Box>
-					</RectButton>
+					</BorderlessTap>
 
-					<RectButton
-						onPress={() => true}
-						style={{
-							justifyContent: "center",
-							alignItems: "center",
-							width: width * 0.33,
-							height: 30,
-							borderRadius: 15,
-						}}
-					>
+					<BorderlessTap onPress={() => alert("Forgot password")}>
 						<Text
 							style={{
 								fontFamily: "Poppins-Regular",
 								fontWeight: "normal",
 								fontSize: 12,
 								lineHeight: 24,
-								color: theme.colors.primary,
+								color: theme.colors.santaGray,
 								borderRadius: theme.borderRadii.s,
 								textAlign: "center",
 							}}
 						>
 							Forgot password
 						</Text>
-					</RectButton>
+					</BorderlessTap>
 				</Box>
 
 				<Box
