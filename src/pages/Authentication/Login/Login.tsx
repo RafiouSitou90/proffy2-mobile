@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import { Dimensions, TextInput } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
@@ -12,6 +12,10 @@ const { width } = Dimensions.get("window")
 
 const Login = () => {
 	const theme = useTheme()
+
+	const email = useRef<TextInput>(null)
+	const password = useRef<TextInput>(null)
+
 	return (
 		<Box flex={1} backgroundColor="grayBackground">
 			<KeyboardAwareScrollView>
@@ -69,7 +73,23 @@ const Login = () => {
 						borderTopRightRadius: theme.borderRadii.ms,
 					}}
 				>
-					<TextInput />
+					<TextInput
+						ref={email}
+						keyboardType="email-address"
+						autoCompleteType="email"
+						autoCapitalize="none"
+						returnKeyType="next"
+						returnKeyLabel="Next"
+						onSubmitEditing={() => password.current?.focus()}
+						style={{
+							height: 80,
+							fontFamily: "Poppins-Regular",
+							fontWeight: "normal",
+							fontSize: 14,
+							lineHeight: 24,
+							color: theme.colors.dolphin,
+						}}
+					/>
 				</Box>
 				<Box
 					marginHorizontal="m"
@@ -83,7 +103,23 @@ const Login = () => {
 						borderBottomRightRadius: theme.borderRadii.ms,
 					}}
 				>
-					<TextInput />
+					<TextInput
+						ref={password}
+						secureTextEntry={true}
+						autoCompleteType="password"
+						autoCapitalize="none"
+						returnKeyType="go"
+						returnKeyLabel="Go"
+						onSubmitEditing={() => alert("Submit")}
+						style={{
+							height: 80,
+							fontFamily: "Poppins-Regular",
+							fontWeight: "normal",
+							fontSize: 14,
+							lineHeight: 24,
+							color: theme.colors.dolphin,
+						}}
+					/>
 				</Box>
 
 				<Box
