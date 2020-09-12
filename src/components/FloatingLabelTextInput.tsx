@@ -23,7 +23,22 @@ const FloatingLabelTextInput = forwardRef<
 	}
 
 	return (
-		<Box flex={1}>
+		<Box flex={1} flexDirection={"row"}>
+			{focused && (
+				<Box
+					style={{
+						position: "absolute",
+						left: -1,
+						top: 10,
+						width: 2,
+						height: 40,
+						backgroundColor: "red",
+						borderLeftWidth: 2,
+						borderLeftColor: theme.colors.primary,
+						borderRadius: 5,
+					}}
+				/>
+			)}
 			<Text
 				style={{
 					position: "absolute",
@@ -41,7 +56,6 @@ const FloatingLabelTextInput = forwardRef<
 			>
 				{label}
 			</Text>
-
 			<TextInput
 				{...{ ref }}
 				{...props}
