@@ -6,7 +6,7 @@ import { Feather as Icon } from "@expo/vector-icons"
 
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
-import { BorderlessTap } from "../../../components"
+import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
 
 const { width } = Dimensions.get("window")
 
@@ -73,22 +73,16 @@ const Login = () => {
 						borderTopRightRadius: theme.borderRadii.ms,
 					}}
 				>
-					<TextInput
+					<FloatingLabelTextInput
 						ref={email}
+						label="Email"
+						isFocused={false}
 						keyboardType="email-address"
 						autoCompleteType="email"
 						autoCapitalize="none"
 						returnKeyType="next"
 						returnKeyLabel="Next"
 						onSubmitEditing={() => password.current?.focus()}
-						style={{
-							height: 80,
-							fontFamily: "Poppins-Regular",
-							fontWeight: "normal",
-							fontSize: 14,
-							lineHeight: 24,
-							color: theme.colors.dolphin,
-						}}
 					/>
 				</Box>
 				<Box
@@ -103,22 +97,16 @@ const Login = () => {
 						borderBottomRightRadius: theme.borderRadii.ms,
 					}}
 				>
-					<TextInput
+					<FloatingLabelTextInput
 						ref={password}
+						label="Password"
+						isFocused={false}
 						secureTextEntry={true}
 						autoCompleteType="password"
 						autoCapitalize="none"
 						returnKeyType="go"
 						returnKeyLabel="Go"
 						onSubmitEditing={() => alert("Submit")}
-						style={{
-							height: 80,
-							fontFamily: "Poppins-Regular",
-							fontWeight: "normal",
-							fontSize: 14,
-							lineHeight: 24,
-							color: theme.colors.dolphin,
-						}}
 					/>
 				</Box>
 
