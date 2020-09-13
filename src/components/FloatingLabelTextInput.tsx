@@ -1,21 +1,20 @@
-import React, { forwardRef, useState } from "react"
-import { TextInput } from "react-native"
+import React, { forwardRef, ReactNode, useState } from "react"
+import { TextInput, TextInputProps } from "react-native"
 import { Box, useTheme, Text } from "../theme"
 
-interface FloatingLabelTextInputProps {
+interface FloatingLabelTextInputProps extends TextInputProps {
 	label: string
-	icon?: string
-	error?: string
-	touched?: boolean
 	isFocused: boolean
+	icon?: ReactNode
 }
 
 const FloatingLabelTextInput = forwardRef<
 	TextInput,
 	FloatingLabelTextInputProps
->(({ label, icon, error, touched, isFocused, ...props }, ref) => {
+>(({ label, icon, isFocused, ...props }, ref) => {
 	const theme = useTheme()
 	const [focused, setFocused] = useState<boolean>(isFocused)
+	const { value } = props
 
 	function handleFocus() {
 		setFocused(true)
@@ -25,18 +24,37 @@ const FloatingLabelTextInput = forwardRef<
 	}
 
 	return (
-		<Box flex={1}>
+		<Box flex={1} flexDirection={"row"}>
+			{focused && (
+				<Box
+					style={{
+						position: "absolute",
+						left: -1,
+						top: 10,
+						width: 2,
+						height: 40,
+						backgroundColor: "red",
+						borderLeftWidth: 2,
+						borderLeftColor: theme.colors.primary,
+						borderRadius: 5,
+					}}
+				/>
+			)}
 			<Text
 				style={{
 					position: "absolute",
 					left: 0,
 					paddingLeft: theme.spacing.ms,
-					top: !focused ? 20 : 10,
+					top: value ? 10 : !focused ? 20 : 10,
 					fontFamily: "Poppins-Regular",
 					fontWeight: "normal",
-					fontSize: !focused ? 14 : 10,
-					lineHeight: !focused ? 24 : 20,
-					color: theme.colors.dolphin,
+					fontSize: value ? 10 : !focused ? 14 : 10,
+					lineHeight: value ? 20 : !focused ? 24 : 20,
+					color: value
+						? theme.colors.graySuit
+						: !focused
+						? theme.colors.dolphin
+						: theme.colors.graySuit,
 				}}
 			>
 				{label}
@@ -56,13 +74,28 @@ const FloatingLabelTextInput = forwardRef<
 					position: "absolute",
 					color: theme.colors.dolphin,
 					height: "100%",
-					width: "100%",
+					width: "90%",
 					paddingHorizontal: theme.spacing.ms,
+					marginRight: theme.spacing.xs,
 					textAlignVertical: "bottom",
 					marginTop: 30,
-					marginBottom: 10,
+					paddingBottom: 4,
 				}}
 			/>
+
+			{icon && (
+				<Box
+					justifyContent={"center"}
+					style={{
+						position: "absolute",
+						right: 10,
+						top: 20,
+						paddingHorizontal: 5,
+					}}
+				>
+					{icon}
+				</Box>
+			)}
 		</Box>
 	)
 })

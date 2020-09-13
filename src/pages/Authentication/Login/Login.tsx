@@ -1,17 +1,22 @@
-import React, { useRef } from "react"
+import { Feather as Icon } from "@expo/vector-icons"
+import React, { useRef, useState } from "react"
 import { Dimensions, TextInput } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import { Feather as Icon } from "@expo/vector-icons"
+import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
 
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
-import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
 
 const { width } = Dimensions.get("window")
 
 const Login = () => {
 	const theme = useTheme()
+
+	const [showPassword, setShowPassword] = useState<boolean>(true)
+	const [emailValue, setEmailValue] = useState<string>()
+	const [passwordValue, setPasswordValue] = useState<string>()
+	const [rememberMe, setRememberMe] = useState<boolean>(false)
 
 	const email = useRef<TextInput>(null)
 	const password = useRef<TextInput>(null)
@@ -77,6 +82,8 @@ const Login = () => {
 						ref={email}
 						label="Email"
 						isFocused={false}
+						value={emailValue}
+						onChangeText={(text) => setEmailValue(text)}
 						keyboardType="email-address"
 						autoCompleteType="email"
 						autoCapitalize="none"
@@ -101,12 +108,27 @@ const Login = () => {
 						ref={password}
 						label="Password"
 						isFocused={false}
-						secureTextEntry={true}
+						value={passwordValue}
+						onChangeText={(text) => setPasswordValue(text)}
+						secureTextEntry={showPassword}
 						autoCompleteType="password"
 						autoCapitalize="none"
 						returnKeyType="go"
 						returnKeyLabel="Go"
 						onSubmitEditing={() => alert("Submit")}
+						icon={
+							<BorderlessTap
+								onPress={() =>
+									setShowPassword((prevState) => !prevState)
+								}
+							>
+								<Icon
+									name={showPassword ? "eye" : "eye-off"}
+									size={24}
+									color={theme.colors.primary}
+								/>
+							</BorderlessTap>
+						}
 					/>
 				</Box>
 
@@ -118,7 +140,9 @@ const Login = () => {
 					marginBottom="l"
 					marginHorizontal="m"
 				>
-					<BorderlessTap onPress={() => alert("Remember me")}>
+					<BorderlessTap
+						onPress={() => setRememberMe((prevState) => !prevState)}
+					>
 						<Box
 							flexDirection="row"
 							style={{
@@ -134,10 +158,22 @@ const Login = () => {
 								alignItems="center"
 								borderRadius="ms"
 								borderWidth={2}
-								borderColor="secondary"
-								backgroundColor="secondary"
+								borderColor={
+									rememberMe ? "secondary" : "primary"
+								}
+								backgroundColor={
+									rememberMe ? "secondary" : "white"
+								}
 							>
-								<Icon name="check" color="white" size={18} />
+								<Icon
+									name="check"
+									color={
+										rememberMe
+											? "white"
+											: theme.colors.primary
+									}
+									size={18}
+								/>
 							</Box>
 							<Text
 								style={{
@@ -181,7 +217,10 @@ const Login = () => {
 							width: width * 0.85,
 							height: 56,
 							borderRadius: theme.borderRadii.ms,
-							backgroundColor: theme.colors.mischka,
+							backgroundColor:
+								emailValue && passwordValue
+									? theme.colors.secondary
+									: theme.colors.mischka,
 							justifyContent: "center",
 							alignItems: "center",
 						}}
@@ -193,7 +232,10 @@ const Login = () => {
 								fontSize: 16,
 								lineHeight: 26,
 								textAlign: "center",
-								color: theme.colors.santaGray,
+								color:
+									emailValue && passwordValue
+										? "white"
+										: theme.colors.santaGray,
 							}}
 						>
 							Enter
