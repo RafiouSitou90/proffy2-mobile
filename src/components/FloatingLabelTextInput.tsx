@@ -14,6 +14,7 @@ const FloatingLabelTextInput = forwardRef<
 >(({ label, icon, isFocused, ...props }, ref) => {
 	const theme = useTheme()
 	const [focused, setFocused] = useState<boolean>(isFocused)
+	const { value } = props
 
 	function handleFocus() {
 		setFocused(true)
@@ -44,12 +45,14 @@ const FloatingLabelTextInput = forwardRef<
 					position: "absolute",
 					left: 0,
 					paddingLeft: theme.spacing.ms,
-					top: !focused ? 20 : 10,
+					top: value ? 10 : !focused ? 20 : 10,
 					fontFamily: "Poppins-Regular",
 					fontWeight: "normal",
-					fontSize: !focused ? 14 : 10,
-					lineHeight: !focused ? 24 : 20,
-					color: !focused
+					fontSize: value ? 10 : !focused ? 14 : 10,
+					lineHeight: value ? 20 : !focused ? 24 : 20,
+					color: value
+						? theme.colors.graySuit
+						: !focused
 						? theme.colors.dolphin
 						: theme.colors.graySuit,
 				}}
