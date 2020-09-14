@@ -1,6 +1,6 @@
 import { Feather as Icon } from "@expo/vector-icons"
 import React, { useRef, useState } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { Dimensions, TextInput } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
@@ -27,8 +27,15 @@ type loginFormType = {
 const Login = () => {
 	const theme = useTheme()
 
-	const { handleSubmit } = useForm<loginFormType>({
+	const { handleSubmit, control, errors } = useForm<loginFormType>({
 		resolver: yupResolver(loginSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+			rememberMe: false,
+		},
+		criteriaMode: "all",
+		mode: "onBlur",
 	})
 
 	const [showPassword, setShowPassword] = useState<boolean>(true)
@@ -108,20 +115,32 @@ const Login = () => {
 						borderTopRightRadius: theme.borderRadii.ms,
 					}}
 				>
-					<FloatingLabelTextInput
-						ref={emailInputRef}
-						label="Email"
-						isFocused={false}
-						value={email}
-						onChangeText={(text) => handleEmail(text)}
-						keyboardType="email-address"
-						autoCompleteType="email"
-						autoCapitalize="none"
-						returnKeyType="next"
-						returnKeyLabel="Next"
-						onSubmitEditing={() =>
-							passwordInputRef.current?.focus()
-						}
+					<Controller
+						control={control}
+						render={({ onChange, onBlur, value }) => (
+							<FloatingLabelTextInput
+								ref={emailInputRef}
+								label="Email"
+								isFocused={false}
+								value={value}
+								onBlur={onBlur}
+								onChangeText={(text) => {
+									handleEmail(text)
+									onChange(text.trim())
+								}}
+								keyboardType="email-address"
+								autoCompleteType="email"
+								autoCapitalize="none"
+								returnKeyType="next"
+								returnKeyLabel="Next"
+								onSubmitEditing={() =>
+									passwordInputRef.current?.focus()
+								}
+							/>
+						)}
+						name="email"
+						rules={{ required: true }}
+						defaultValue={email}
 					/>
 				</Box>
 				<Box
@@ -136,31 +155,47 @@ const Login = () => {
 						borderBottomRightRadius: theme.borderRadii.ms,
 					}}
 				>
-					<FloatingLabelTextInput
-						ref={passwordInputRef}
-						label="Password"
-						isFocused={false}
-						value={password}
-						onChangeText={(text) => handlePassword(text)}
-						secureTextEntry={showPassword}
-						autoCompleteType="password"
-						autoCapitalize="none"
-						returnKeyType="go"
-						returnKeyLabel="Go"
-						onSubmitEditing={() => onSubmit(handleSubmit)}
-						icon={
-							<BorderlessTap
-								onPress={() =>
-									setShowPassword((prevState) => !prevState)
+					<Controller
+						control={control}
+						render={({ onChange, onBlur, value }) => (
+							<FloatingLabelTextInput
+								ref={passwordInputRef}
+								label="Password"
+								isFocused={false}
+								value={value}
+								onBlur={onBlur}
+								onChangeText={(text) => {
+									handlePassword(text)
+									onChange(text.trim())
+								}}
+								secureTextEntry={showPassword}
+								autoCompleteType="password"
+								autoCapitalize="none"
+								returnKeyType="go"
+								returnKeyLabel="Go"
+								onSubmitEditing={handleSubmit(onSubmit)}
+								icon={
+									<BorderlessTap
+										onPress={() =>
+											setShowPassword(
+												(prevState) => !prevState
+											)
+										}
+									>
+										<Icon
+											name={
+												showPassword ? "eye" : "eye-off"
+											}
+											size={24}
+											color={theme.colors.primary}
+										/>
+									</BorderlessTap>
 								}
-							>
-								<Icon
-									name={showPassword ? "eye" : "eye-off"}
-									size={24}
-									color={theme.colors.primary}
-								/>
-							</BorderlessTap>
-						}
+							/>
+						)}
+						name="password"
+						rules={{ required: true }}
+						defaultValue={""}
 					/>
 				</Box>
 
@@ -172,54 +207,65 @@ const Login = () => {
 					marginBottom="l"
 					marginHorizontal="m"
 				>
-					<BorderlessTap
-						onPress={() => setRememberMe((prevState) => !prevState)}
-					>
-						<Box
-							flexDirection="row"
-							style={{
-								justifyContent: "center",
-								alignItems: "center",
-							}}
-						>
-							<Box
-								marginRight="s"
-								width={24}
-								height={24}
-								justifyContent="center"
-								alignItems="center"
-								borderRadius="ms"
-								borderWidth={2}
-								borderColor={
-									rememberMe ? "secondary" : "primary"
-								}
-								backgroundColor={
-									rememberMe ? "secondary" : "white"
-								}
-							>
-								<Icon
-									name="check"
-									color={
-										rememberMe
-											? "white"
-											: theme.colors.primary
-									}
-									size={18}
-								/>
-							</Box>
-							<Text
-								style={{
-									fontFamily: "Poppins-Regular",
-									fontWeight: "normal",
-									fontSize: 12,
-									lineHeight: 24,
-									color: theme.colors.santaGray,
+					<Controller
+						control={control}
+						render={({ onChange }) => (
+							<BorderlessTap
+								onPress={() => {
+									setRememberMe((prevState) => !prevState)
+									onChange(rememberMe)
 								}}
 							>
-								Remember me
-							</Text>
-						</Box>
-					</BorderlessTap>
+								<Box
+									flexDirection="row"
+									style={{
+										justifyContent: "center",
+										alignItems: "center",
+									}}
+								>
+									<Box
+										marginRight="s"
+										width={24}
+										height={24}
+										justifyContent="center"
+										alignItems="center"
+										borderRadius="ms"
+										borderWidth={2}
+										borderColor={
+											rememberMe ? "secondary" : "primary"
+										}
+										backgroundColor={
+											rememberMe ? "secondary" : "white"
+										}
+									>
+										<Icon
+											name="check"
+											color={
+												rememberMe
+													? "white"
+													: theme.colors.primary
+											}
+											size={18}
+										/>
+									</Box>
+									<Text
+										style={{
+											fontFamily: "Poppins-Regular",
+											fontWeight: "normal",
+											fontSize: 12,
+											lineHeight: 24,
+											color: theme.colors.santaGray,
+										}}
+									>
+										Remember me
+									</Text>
+								</Box>
+							</BorderlessTap>
+						)}
+						name="rememberMe"
+						rules={{ required: false }}
+						defaultValue={false}
+					/>
 
 					<BorderlessTap onPress={() => alert("Forgot password")}>
 						<Text
@@ -245,7 +291,7 @@ const Login = () => {
 					marginHorizontal="m"
 				>
 					<RectButton
-						onPress={() => onSubmit(handleSubmit)}
+						onPress={handleSubmit(onSubmit)}
 						style={{
 							width: width * 0.85,
 							height: 56,
