@@ -1,25 +1,55 @@
 import { Feather as Icon } from "@expo/vector-icons"
 import React, { useRef, useState } from "react"
+import { useForm } from "react-hook-form"
 import { Dimensions, TextInput } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
+import { yupResolver } from "@hookform/resolvers"
+import * as Yup from "yup"
 
+import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
 
 const { width } = Dimensions.get("window")
 
+const loginSchema = Yup.object().shape({
+	email: Yup.string().email().trim().lowercase().required(),
+	password: Yup.string().trim().min(8).required(),
+})
+
+type loginFormType = {
+	email: string
+	password: string
+	rememberMe: boolean
+}
+
 const Login = () => {
 	const theme = useTheme()
 
+	const { handleSubmit } = useForm<loginFormType>({
+		resolver: yupResolver(loginSchema),
+	})
+
 	const [showPassword, setShowPassword] = useState<boolean>(true)
-	const [emailValue, setEmailValue] = useState<string>()
-	const [passwordValue, setPasswordValue] = useState<string>()
+	const [email, setEmail] = useState<string>()
+	const [password, setPassword] = useState<string>()
 	const [rememberMe, setRememberMe] = useState<boolean>(false)
 
-	const email = useRef<TextInput>(null)
-	const password = useRef<TextInput>(null)
+	const emailInputRef = useRef<TextInput>(null)
+	const passwordInputRef = useRef<TextInput>(null)
+
+	const handleEmail = (text: string) => {
+		setEmail(text.trim())
+	}
+
+	const handlePassword = (text: string) => {
+		setPassword(text.trim())
+	}
+
+	const onSubmit = (data: any) => {
+		console.log(data)
+	}
 
 	return (
 		<Box flex={1} backgroundColor="grayBackground">
@@ -79,17 +109,19 @@ const Login = () => {
 					}}
 				>
 					<FloatingLabelTextInput
-						ref={email}
+						ref={emailInputRef}
 						label="Email"
 						isFocused={false}
-						value={emailValue}
-						onChangeText={(text) => setEmailValue(text)}
+						value={email}
+						onChangeText={(text) => handleEmail(text)}
 						keyboardType="email-address"
 						autoCompleteType="email"
 						autoCapitalize="none"
 						returnKeyType="next"
 						returnKeyLabel="Next"
-						onSubmitEditing={() => password.current?.focus()}
+						onSubmitEditing={() =>
+							passwordInputRef.current?.focus()
+						}
 					/>
 				</Box>
 				<Box
@@ -105,17 +137,17 @@ const Login = () => {
 					}}
 				>
 					<FloatingLabelTextInput
-						ref={password}
+						ref={passwordInputRef}
 						label="Password"
 						isFocused={false}
-						value={passwordValue}
-						onChangeText={(text) => setPasswordValue(text)}
+						value={password}
+						onChangeText={(text) => handlePassword(text)}
 						secureTextEntry={showPassword}
 						autoCompleteType="password"
 						autoCapitalize="none"
 						returnKeyType="go"
 						returnKeyLabel="Go"
-						onSubmitEditing={() => alert("Submit")}
+						onSubmitEditing={() => onSubmit(handleSubmit)}
 						icon={
 							<BorderlessTap
 								onPress={() =>
@@ -213,12 +245,13 @@ const Login = () => {
 					marginHorizontal="m"
 				>
 					<RectButton
+						onPress={() => onSubmit(handleSubmit)}
 						style={{
 							width: width * 0.85,
 							height: 56,
 							borderRadius: theme.borderRadii.ms,
 							backgroundColor:
-								emailValue && passwordValue
+								email && password
 									? theme.colors.secondary
 									: theme.colors.mischka,
 							justifyContent: "center",
@@ -233,7 +266,7 @@ const Login = () => {
 								lineHeight: 26,
 								textAlign: "center",
 								color:
-									emailValue && passwordValue
+									email && password
 										? "white"
 										: theme.colors.santaGray,
 							}}
