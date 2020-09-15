@@ -1,17 +1,17 @@
+import { MaterialIcons as Icon } from "@expo/vector-icons"
 import { yupResolver } from "@hookform/resolvers"
 import React, { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Dimensions } from "react-native"
+import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import { MaterialIcons as Icon } from "@expo/vector-icons"
 import * as Yup from "yup"
+
 import { FloatingLabelTextInput } from "../../../components"
 import { AuthenticationNavigationProps } from "../../../routes/Authentication"
 
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
-
-import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 
 type forgotPasswordFormType = {
 	email: string
@@ -47,7 +47,7 @@ const ForgotPassword = ({
 	}
 
 	const enabled =
-		Object.keys(formState.touched).length === 2 &&
+		Object.keys(formState.touched).length === 1 &&
 		!Object.keys(errors).length
 
 	useEffect(() => {
@@ -56,6 +56,7 @@ const ForgotPassword = ({
 
 	const onSubmit = (data: any) => {
 		console.log(data)
+		navigation.navigate("ResetPasswordSuccessfully")
 	}
 
 	return (

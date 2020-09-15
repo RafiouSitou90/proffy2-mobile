@@ -1,1 +1,6 @@
-export { OnBoarding, Login, ForgotPassword } from "./Authentication"
+export {
+	OnBoarding,
+	Login,
+	ForgotPassword,
+	ResetPasswordSuccessfully,
+} from "./Authentication"
