@@ -3,11 +3,11 @@ import { yupResolver } from "@hookform/resolvers"
 import React, { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Dimensions } from "react-native"
-import { BorderlessButton, RectButton } from "react-native-gesture-handler"
+import { BorderlessButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import * as Yup from "yup"
 
-import { FloatingLabelTextInput } from "../../../components"
+import { Button, FloatingLabelTextInput } from "../../../components"
 import { AuthenticationNavigationProps } from "../../../routes/Authentication"
 
 import { Box, Text, useTheme } from "../../../theme"
@@ -133,6 +133,9 @@ const ForgotPassword = ({
 								isFocused={false}
 								value={value}
 								onBlur={onBlur}
+								error={
+									errors.email && "The email must be valid"
+								}
 								onChangeText={(text) => {
 									handleEmail(text.trim())
 									onChange(text.trim())
@@ -157,35 +160,11 @@ const ForgotPassword = ({
 					marginVertical={"m"}
 					marginHorizontal="m"
 				>
-					<RectButton
-						enabled={isValidForm}
+					<Button
+						label={"Enter"}
 						onPress={handleSubmit(onSubmit)}
-						style={{
-							width: width * 0.85,
-							height: 56,
-							borderRadius: theme.borderRadii.ms,
-							backgroundColor: isValidForm
-								? theme.colors.secondary
-								: theme.colors.mischka,
-							justifyContent: "center",
-							alignItems: "center",
-						}}
-					>
-						<Text
-							style={{
-								fontFamily: "Archivo-Regular",
-								fontWeight: "600",
-								fontSize: 16,
-								lineHeight: 26,
-								textAlign: "center",
-								color: isValidForm
-									? "white"
-									: theme.colors.santaGray,
-							}}
-						>
-							Enter
-						</Text>
-					</RectButton>
+						enabled={isValidForm}
+					/>
 				</Box>
 			</KeyboardAwareScrollView>
 		</Box>

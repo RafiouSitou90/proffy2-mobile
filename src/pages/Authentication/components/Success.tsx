@@ -1,7 +1,7 @@
 import React from "react"
 import { Dimensions, ImageBackground } from "react-native"
 import { MaterialIcons as Icon } from "@expo/vector-icons"
-import { RectButton } from "react-native-gesture-handler"
+import { Button } from "../../../components"
 
 import { Box, Text, useTheme } from "../../../theme"
 
@@ -96,32 +96,9 @@ const Success = ({
 				justifyContent="center"
 				alignItems="center"
 				marginBottom="m"
-				marginHorizontal={"l"}
+				marginHorizontal={"m"}
 			>
-				<RectButton
-					onPress={onPress}
-					style={{
-						width: width * 0.8,
-						height: 56,
-						borderRadius: theme.borderRadii.ms,
-						backgroundColor: theme.colors.secondary,
-						justifyContent: "center",
-						alignItems: "center",
-					}}
-				>
-					<Text
-						style={{
-							fontFamily: "Archivo-Regular",
-							fontWeight: "600",
-							fontSize: 16,
-							lineHeight: 26,
-							textAlign: "center",
-							color: theme.colors.white,
-						}}
-					>
-						{buttonLabel}
-					</Text>
-				</RectButton>
+				<Button label={buttonLabel} onPress={onPress} enabled={true} />
 			</Box>
 		</Box>
 	)
