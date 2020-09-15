@@ -1,13 +1,14 @@
 import { Feather as Icon } from "@expo/vector-icons"
-import React, { useRef, useState } from "react"
+import { yupResolver } from "@hookform/resolvers"
+import React, { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Dimensions, TextInput } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import { yupResolver } from "@hookform/resolvers"
 import * as Yup from "yup"
 
 import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
+import { AuthenticationNavigationProps } from "../../../routes/Authentication"
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
 
@@ -24,24 +25,26 @@ type loginFormType = {
 	rememberMe: boolean
 }
 
-const Login = () => {
+const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 	const theme = useTheme()
 
-	const { handleSubmit, control, errors } = useForm<loginFormType>({
-		resolver: yupResolver(loginSchema),
-		defaultValues: {
-			email: "",
-			password: "",
-			rememberMe: false,
-		},
-		criteriaMode: "all",
-		mode: "onBlur",
-	})
+	const { handleSubmit, control, errors, formState } = useForm<loginFormType>(
+		{
+			resolver: yupResolver(loginSchema),
+			defaultValues: {
+				email: "",
+				password: "",
+				rememberMe: false,
+			},
+			criteriaMode: "all",
+			mode: "onBlur",
+		}
+	)
 
-	const [showPassword, setShowPassword] = useState<boolean>(true)
-	const [email, setEmail] = useState<string>()
-	const [password, setPassword] = useState<string>()
+	const [showPassword, setShowPassword] = useState<boolean>(false)
+	const [email, setEmail] = useState<string>("")
 	const [rememberMe, setRememberMe] = useState<boolean>(false)
+	const [isValidForm, setIsValidForm] = useState<boolean>(false)
 
 	const emailInputRef = useRef<TextInput>(null)
 	const passwordInputRef = useRef<TextInput>(null)
@@ -50,9 +53,13 @@ const Login = () => {
 		setEmail(text.trim())
 	}
 
-	const handlePassword = (text: string) => {
-		setPassword(text.trim())
-	}
+	const enabled =
+		Object.keys(formState.touched).length === 2 &&
+		!Object.keys(errors).length
+
+	useEffect(() => {
+		enabled ? setIsValidForm(true) : setIsValidForm(false)
+	}, [enabled])
 
 	const onSubmit = (data: any) => {
 		console.log(data)
@@ -125,7 +132,7 @@ const Login = () => {
 								value={value}
 								onBlur={onBlur}
 								onChangeText={(text) => {
-									handleEmail(text)
+									handleEmail(text.trim())
 									onChange(text.trim())
 								}}
 								keyboardType="email-address"
@@ -165,7 +172,6 @@ const Login = () => {
 								value={value}
 								onBlur={onBlur}
 								onChangeText={(text) => {
-									handlePassword(text)
 									onChange(text.trim())
 								}}
 								secureTextEntry={showPassword}
@@ -184,7 +190,7 @@ const Login = () => {
 									>
 										<Icon
 											name={
-												showPassword ? "eye" : "eye-off"
+												showPassword ? "eye-off" : "eye"
 											}
 											size={24}
 											color={theme.colors.primary}
@@ -264,10 +270,11 @@ const Login = () => {
 						)}
 						name="rememberMe"
 						rules={{ required: false }}
-						defaultValue={false}
 					/>
 
-					<BorderlessTap onPress={() => alert("Forgot password")}>
+					<BorderlessTap
+						onPress={() => navigation.navigate("ForgotPassword")}
+					>
 						<Text
 							style={{
 								fontFamily: "Poppins-Regular",
@@ -291,15 +298,15 @@ const Login = () => {
 					marginHorizontal="m"
 				>
 					<RectButton
+						enabled={isValidForm}
 						onPress={handleSubmit(onSubmit)}
 						style={{
 							width: width * 0.85,
 							height: 56,
 							borderRadius: theme.borderRadii.ms,
-							backgroundColor:
-								email && password
-									? theme.colors.secondary
-									: theme.colors.mischka,
+							backgroundColor: isValidForm
+								? theme.colors.secondary
+								: theme.colors.mischka,
 							justifyContent: "center",
 							alignItems: "center",
 						}}
@@ -311,10 +318,9 @@ const Login = () => {
 								fontSize: 16,
 								lineHeight: 26,
 								textAlign: "center",
-								color:
-									email && password
-										? "white"
-										: theme.colors.santaGray,
+								color: isValidForm
+									? "white"
+									: theme.colors.santaGray,
 							}}
 						>
 							Enter

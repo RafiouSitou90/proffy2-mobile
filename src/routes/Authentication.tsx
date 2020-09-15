@@ -3,13 +3,14 @@ import {
 	StackNavigationProp,
 } from "@react-navigation/stack"
 import React from "react"
-import { Login, OnBoarding } from "../pages"
+import { ForgotPassword, Login, OnBoarding } from "../pages"
 import { OnBoardingAssets } from "../pages/Authentication"
 import { CompositeNavigationProp, RouteProp } from "@react-navigation/native"
 
 export type AuthenticationRoutes = {
 	OnBoarding: undefined
 	Login: undefined
+	ForgotPassword: undefined
 }
 
 export interface AuthenticationNavigationProps<
@@ -38,6 +39,10 @@ const AuthenticationNavigator = () => {
 				component={OnBoarding}
 			/>
 			<AuthenticationStack.Screen name="Login" component={Login} />
+			<AuthenticationStack.Screen
+				name="ForgotPassword"
+				component={ForgotPassword}
+			/>
 		</AuthenticationStack.Navigator>
 	)
 }
