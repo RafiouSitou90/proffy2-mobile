@@ -47,7 +47,7 @@ const ForgotPassword = ({
 	}
 
 	const enabled =
-		Object.keys(formState.touched).length === 2 &&
+		Object.keys(formState.touched).length === 1 &&
 		!Object.keys(errors).length
 
 	useEffect(() => {
@@ -57,6 +57,8 @@ const ForgotPassword = ({
 	const onSubmit = (data: any) => {
 		console.log(data)
 	}
+
+	console.log(enabled)
 
 	return (
 		<Box flex={1} backgroundColor="grayBackground">
