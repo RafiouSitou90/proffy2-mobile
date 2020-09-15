@@ -133,6 +133,9 @@ const ForgotPassword = ({
 								isFocused={false}
 								value={value}
 								onBlur={onBlur}
+								error={
+									errors.email && "The email must be valid"
+								}
 								onChangeText={(text) => {
 									handleEmail(text.trim())
 									onChange(text.trim())
