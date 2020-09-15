@@ -8,6 +8,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import * as Yup from "yup"
 
 import { BorderlessTap, FloatingLabelTextInput } from "../../../components"
+import { AuthenticationNavigationProps } from "../../../routes/Authentication"
 import { Box, Text, useTheme } from "../../../theme"
 import Header from "../components/Header"
 
@@ -24,7 +25,7 @@ type loginFormType = {
 	rememberMe: boolean
 }
 
-const Login = () => {
+const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 	const theme = useTheme()
 
 	const { handleSubmit, control, errors, formState } = useForm<loginFormType>(
@@ -271,7 +272,9 @@ const Login = () => {
 						rules={{ required: false }}
 					/>
 
-					<BorderlessTap onPress={() => alert("Forgot password")}>
+					<BorderlessTap
+						onPress={() => navigation.navigate("ForgotPassword")}
+					>
 						<Text
 							style={{
 								fontFamily: "Poppins-Regular",
