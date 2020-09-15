@@ -19,9 +19,6 @@ const FloatingLabelTextInput = forwardRef<
 	function handleFocus() {
 		setFocused(true)
 	}
-	function handleBlur() {
-		setFocused(false)
-	}
 
 	return (
 		<Box flex={1} flexDirection={"row"}>
@@ -63,7 +60,6 @@ const FloatingLabelTextInput = forwardRef<
 				{...{ ref }}
 				{...props}
 				onFocus={handleFocus}
-				onBlur={handleBlur}
 				style={{
 					paddingLeft: theme.spacing.ms,
 					fontFamily: "Poppins-Regular",
