@@ -7,18 +7,24 @@ interface FloatingLabelTextInputProps extends TextInputProps {
 	isFocused: boolean
 	icon?: ReactNode
 	error?: string
+	onBlur: () => void
 }
 
 const FloatingLabelTextInput = forwardRef<
 	TextInput,
 	FloatingLabelTextInputProps
->(({ label, icon, isFocused, error, ...props }, ref) => {
+>(({ label, icon, isFocused, onBlur, error, ...props }, ref) => {
 	const theme = useTheme()
 	const [focused, setFocused] = useState<boolean>(isFocused)
 	const { value } = props
 
 	function handleFocus() {
 		setFocused(true)
+	}
+
+	function handleOnBlur() {
+		setFocused(false)
+		onBlur()
 	}
 
 	return (
@@ -48,7 +54,9 @@ const FloatingLabelTextInput = forwardRef<
 					fontWeight: "normal",
 					fontSize: value ? 10 : !focused ? 14 : 10,
 					lineHeight: value ? 20 : !focused ? 24 : 20,
-					color: error
+					color: !value
+						? theme.colors.dolphin
+						: error
 						? theme.colors.red
 						: value
 						? theme.colors.graySuit
@@ -57,12 +65,13 @@ const FloatingLabelTextInput = forwardRef<
 						: theme.colors.graySuit,
 				}}
 			>
-				{error ? error : label}
+				{!value ? label : error ? error : label}
 			</Text>
 			<TextInput
 				{...{ ref }}
 				{...props}
 				onFocus={handleFocus}
+				onBlur={handleOnBlur}
 				style={{
 					paddingLeft: theme.spacing.ms,
 					fontFamily: "Poppins-Regular",

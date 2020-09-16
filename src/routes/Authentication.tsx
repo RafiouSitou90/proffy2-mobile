@@ -10,6 +10,7 @@ import {
 	Login,
 	OnBoarding,
 	ResetPasswordSuccessfully,
+	SignUp,
 } from "../pages"
 import { OnBoardingAssets } from "../pages/Authentication"
 
@@ -18,6 +19,7 @@ export type AuthenticationRoutes = {
 	Login: undefined
 	ForgotPassword: undefined
 	ResetPasswordSuccessfully: undefined
+	SignUp: undefined
 }
 
 export interface AuthenticationNavigationProps<
@@ -54,6 +56,7 @@ const AuthenticationNavigator = () => {
 				name="ResetPasswordSuccessfully"
 				component={ResetPasswordSuccessfully}
 			/>
+			<AuthenticationStack.Screen name="SignUp" component={SignUp} />
 		</AuthenticationStack.Navigator>
 	)
 }

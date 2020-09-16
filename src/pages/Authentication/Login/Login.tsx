@@ -68,6 +68,8 @@ const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 		console.log(data)
 	}
 
+	console.log(errors)
+
 	return (
 		<Box flex={1} backgroundColor="grayBackground">
 			<KeyboardAwareScrollView>
@@ -95,7 +97,7 @@ const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 					</Box>
 					<Box>
 						<BorderlessTap
-							onPress={() => alert("Create an account")}
+							onPress={() => navigation.navigate("SignUp")}
 						>
 							<Text
 								style={{

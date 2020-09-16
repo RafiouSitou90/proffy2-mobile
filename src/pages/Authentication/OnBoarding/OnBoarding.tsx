@@ -16,7 +16,7 @@ import slide_01 from "../../../assets/images/study.png"
 
 import { Box, makeStyles, palette, Theme } from "../../../theme"
 
-import Dot from "./Dot"
+import Dot from "../components/Dot"
 import Slide from "./Slide"
 import SubSlide from "./SubSlide"
 import { AuthenticationNavigationProps } from "../../../routes/Authentication"
