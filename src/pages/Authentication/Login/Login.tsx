@@ -97,7 +97,7 @@ const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 					</Box>
 					<Box>
 						<BorderlessTap
-							onPress={() => alert("Create an account")}
+							onPress={() => navigation.navigate("SignUp")}
 						>
 							<Text
 								style={{
