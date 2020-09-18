@@ -2,18 +2,23 @@ import React from "react"
 import { Dimensions } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 
-import { Text, useTheme } from "../theme"
+import { Text, Theme, useTheme } from "../theme"
 
 interface ButtonProps {
 	label: string
 	onPress: () => void
 	enabled?: boolean | true
+	color?: keyof Theme["colors"] | "secondary"
 }
 
 const { width } = Dimensions.get("window")
 
-const Button = ({ enabled, label, onPress }: ButtonProps) => {
+const Button = ({ enabled, label, onPress, color }: ButtonProps) => {
 	const theme = useTheme()
+
+	const backgroundColor =
+		color === "primary" ? theme.colors.primary : theme.colors.secondary
+
 	return (
 		<RectButton
 			enabled={enabled}
@@ -23,7 +28,7 @@ const Button = ({ enabled, label, onPress }: ButtonProps) => {
 				height: 56,
 				borderRadius: theme.borderRadii.ms,
 				backgroundColor: enabled
-					? theme.colors.secondary
+					? backgroundColor
 					: theme.colors.mischka,
 				justifyContent: "center",
 				alignItems: "center",
