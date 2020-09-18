@@ -1,32 +1,77 @@
 import { MaterialIcons as Icon } from "@expo/vector-icons"
+import { yupResolver } from "@hookform/resolvers"
 import { StatusBar } from "expo-status-bar"
-import React from "react"
+import React, { FunctionComponent } from "react"
+import { useForm } from "react-hook-form"
 import { Dimensions } from "react-native"
 import { BorderlessButton } from "react-native-gesture-handler"
 import { divide } from "react-native-reanimated"
 import { useScrollHandler } from "react-native-redash"
+import * as Yup from "yup"
 
 import { Button } from "../../../components"
 import { AuthenticationNavigationProps } from "../../../routes/Authentication"
 
-import { Box, Text, useTheme } from "../../../theme"
+import { Box, Text, Theme, useTheme } from "../../../theme"
 import Dot from "../components/Dot"
+import EmailPassword from "./EmailPassword"
+import FirstAndLastName from "./FirstAndLastName"
 
 const { width } = Dimensions.get("window")
 
-const slides = [
-	{
-		id: 1,
-	},
-	{
-		id: 2,
-	},
-]
+type signUpFormType = {
+	firstName: string
+	lastName: string
+	email: string
+	password: string
+}
+
+const signUpSchema = Yup.object().shape({
+	firstName: Yup.string().trim().required(),
+	lastName: Yup.string().trim().required(),
+	email: Yup.string().email().trim().lowercase().required(),
+	password: Yup.string().trim().min(8).required(),
+})
+
+interface SlideProps {
+	label: string
+	buttonLabel: string
+	buttonBackgroundColor: keyof Theme["colors"]
+	Form: FunctionComponent
+}
 
 const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 	const theme = useTheme()
-
 	const { x } = useScrollHandler()
+
+	const slides: SlideProps[] = [
+		{
+			label: "01. Who are you?",
+			buttonLabel: "Next",
+			buttonBackgroundColor: "primary",
+			Form: FirstAndLastName,
+		},
+		{
+			label: "02. Email and password",
+			buttonLabel: "Register",
+			buttonBackgroundColor: "secondary",
+			Form: EmailPassword,
+		},
+	]
+
+	const { handleSubmit, control, errors, formState } = useForm<
+		signUpFormType
+	>({
+		resolver: yupResolver(signUpSchema),
+		defaultValues: {
+			firstName: "",
+			lastName: "",
+			email: "",
+			password: "",
+		},
+		criteriaMode: "all",
+		mode: "onBlur",
+	})
 
 	return (
 		<Box
@@ -79,7 +124,7 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 							color: theme.colors.martinique,
 						}}
 					>
-						Forgot your password?
+						Create your free{"\n"}account
 					</Text>
 				</Box>
 				<Box marginTop={"s"}>
@@ -91,10 +136,11 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 							color: theme.colors.martinique,
 						}}
 					>
-						Do not worry, let's fix it
+						Just fill in these details{"\n"}and you will be with us.
 					</Text>
 				</Box>
 			</Box>
+
 			<Box
 				marginHorizontal={"m"}
 				bottom={0}
