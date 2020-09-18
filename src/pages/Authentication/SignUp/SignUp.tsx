@@ -1,11 +1,12 @@
 import { MaterialIcons as Icon } from "@expo/vector-icons"
 import { yupResolver } from "@hookform/resolvers"
 import { StatusBar } from "expo-status-bar"
-import React, { FunctionComponent } from "react"
-import { useForm } from "react-hook-form"
+import React, { FunctionComponent, useRef, useState } from "react"
+import { Control, useForm } from "react-hook-form"
+import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { Dimensions } from "react-native"
 import { BorderlessButton } from "react-native-gesture-handler"
-import { divide } from "react-native-reanimated"
+import Animated, { divide } from "react-native-reanimated"
 import { useScrollHandler } from "react-native-redash"
 import * as Yup from "yup"
 
@@ -33,16 +34,24 @@ const signUpSchema = Yup.object().shape({
 	password: Yup.string().trim().min(8).required(),
 })
 
+export interface SlideFormProps {
+	control: Control
+	errors: FieldErrors
+}
+
 interface SlideProps {
 	label: string
 	buttonLabel: string
 	buttonBackgroundColor: keyof Theme["colors"]
-	Form: FunctionComponent
+	Form: FunctionComponent<SlideFormProps>
 }
 
 const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 	const theme = useTheme()
-	const { x } = useScrollHandler()
+	const { scrollHandler, x } = useScrollHandler()
+	const scroll = useRef<Animated.ScrollView>(null)
+
+	const [isLast, setIsLast] = useState<boolean>(true)
 
 	const slides: SlideProps[] = [
 		{
@@ -73,6 +82,39 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 		mode: "onBlur",
 	})
 
+	const scrollEnabled =
+		(formState.touched.firstName &&
+			formState.touched.lastName &&
+			!errors.firstName &&
+			!errors.lastName) ||
+		false
+
+	const onSubmit = (index: number) => {
+		const last = index === slides.length - 1
+
+		setIsLast(last)
+
+		if (last) {
+		} else {
+			scroll.current?.getNode().scrollTo({
+				x: width * (index + 1),
+				animated: true,
+			})
+		}
+	}
+
+	const handleGoBack = () => {
+		if (isLast) {
+			navigation.goBack()
+		} else {
+			scroll.current?.getNode().scrollTo({
+				x: width * -1,
+				animated: true,
+			})
+			setIsLast(true)
+		}
+	}
+
 	return (
 		<Box
 			paddingHorizontal={"m"}
@@ -81,14 +123,14 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 			style={{ paddingTop: theme.spacing.m * 2 }}
 		>
 			<StatusBar style={"auto"} />
-			<Box style={{ marginHorizontal: -2 }}>
+			<Box style={{ paddingHorizontal: -2 }}>
 				<Box
 					flexDirection={"row"}
 					marginVertical={"xs"}
 					justifyContent={"space-between"}
 					alignItems={"center"}
 				>
-					<BorderlessButton onPress={() => navigation.goBack()}>
+					<BorderlessButton onPress={handleGoBack}>
 						<Icon
 							name={"keyboard-backspace"}
 							color={theme.colors.santaGray}
@@ -141,61 +183,56 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 				</Box>
 			</Box>
 
-			<Box
-				marginHorizontal={"m"}
-				bottom={0}
-				position={"absolute"}
-				marginBottom={"xl"}
+			<Animated.ScrollView
+				ref={scroll}
+				{...{ scrollEnabled }}
+				horizontal
+				decelerationRate="fast"
+				showsHorizontalScrollIndicator={false}
+				bounces={false}
+				{...scrollHandler}
 			>
-				<Box marginBottom={"ms"}>
-					<Text
-						style={{
-							fontFamily: "Poppins-Regular",
-							fontWeight: "600",
-							fontSize: 24,
-							lineHeight: 26,
-							color: theme.colors.martinique,
-						}}
-					>
-						01. Who are you?
-					</Text>
-				</Box>
+				{slides.map(
+					(
+						{ label, buttonLabel, buttonBackgroundColor, Form },
+						index
+					) => (
+						<Box
+							key={index}
+							marginBottom={"xl"}
+							justifyContent={"flex-end"}
+						>
+							<Box marginBottom={"ms"}>
+								<Text
+									style={{
+										fontFamily: "Poppins-Regular",
+										fontWeight: "600",
+										fontSize: 24,
+										lineHeight: 26,
+										color: theme.colors.martinique,
+									}}
+								>
+									{label}
+								</Text>
+							</Box>
 
-				<Box
-					style={{
-						borderWidth: 1,
-						borderColor: theme.colors.athensGray,
-						backgroundColor: theme.colors.almostWhite,
-						width: width * 0.85,
-						height: 64,
-						borderTopLeftRadius: theme.borderRadii.ms,
-						borderTopRightRadius: theme.borderRadii.ms,
-					}}
-				/>
-				<Box
-					style={{
-						borderWidth: 1,
-						borderColor: theme.colors.athensGray,
-						backgroundColor: theme.colors.almostWhite,
-						width: width * 0.85,
-						height: 64,
-						borderBottomLeftRadius: theme.borderRadii.ms,
-						borderBottomRightRadius: theme.borderRadii.ms,
-					}}
-				/>
+							<Form {...{ control, errors }} />
 
-				<Box
-					justifyContent="center"
-					alignItems="center"
-					marginVertical={"m"}
-				>
-					<Button
-						label={"Next"}
-						onPress={() => true}
-						enabled={false}
-					/>
-				</Box>
-			</Box>
+							<Box
+								justifyContent="center"
+								alignItems="center"
+								marginVertical={"m"}
+							>
+								<Button
+									label={buttonLabel}
+									onPress={() => onSubmit(index)}
+									enabled={true}
+								/>
+							</Box>
+						</Box>
+					)
+				)}
+			</Animated.ScrollView>
 		</Box>
 	)
 }
