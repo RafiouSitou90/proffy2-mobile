@@ -89,12 +89,16 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 			!errors.lastName) ||
 		false
 
-	const onSubmit = (index: number) => {
-		const last = index === slides.length - 1
+	const onSubmit = (data: any) => {
+		console.log(data)
+	}
 
+	const onPress = (index: number) => {
+		const last = index === slides.length - 1
 		setIsLast(last)
 
 		if (last) {
+			handleSubmit(onSubmit)
 		} else {
 			scroll.current?.getNode().scrollTo({
 				x: width * (index + 1),
@@ -225,8 +229,9 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 							>
 								<Button
 									label={buttonLabel}
-									onPress={() => onSubmit(index)}
+									onPress={() => onPress(index)}
 									enabled={true}
+									color={buttonBackgroundColor}
 								/>
 							</Box>
 						</Box>
