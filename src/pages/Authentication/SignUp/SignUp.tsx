@@ -27,6 +27,13 @@ type signUpFormType = {
 	password: string
 }
 
+interface signUpFormValues {
+	name: string
+	lastName: string
+	email: string
+	password: string
+}
+
 const signUpSchema = Yup.object().shape({
 	firstName: Yup.string().trim().required(),
 	lastName: Yup.string().trim().required(),
@@ -44,6 +51,7 @@ interface SlideProps {
 	buttonLabel: string
 	buttonBackgroundColor: keyof Theme["colors"]
 	Form: FunctionComponent<SlideFormProps>
+	enabled: boolean
 }
 
 const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
@@ -52,21 +60,6 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 	const scroll = useRef<Animated.ScrollView>(null)
 
 	const [isLast, setIsLast] = useState<boolean>(true)
-
-	const slides: SlideProps[] = [
-		{
-			label: "01. Who are you?",
-			buttonLabel: "Next",
-			buttonBackgroundColor: "primary",
-			Form: FirstAndLastName,
-		},
-		{
-			label: "02. Email and password",
-			buttonLabel: "Register",
-			buttonBackgroundColor: "secondary",
-			Form: EmailPassword,
-		},
-	]
 
 	const { handleSubmit, control, errors, formState } = useForm<
 		signUpFormType
@@ -89,7 +82,31 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 			!errors.lastName) ||
 		false
 
-	const onSubmit = (data: any) => {
+	const submitEnabled =
+		(formState.touched.email &&
+			formState.touched.password &&
+			!errors.email &&
+			!errors.password) ||
+		false
+
+	const slides: SlideProps[] = [
+		{
+			label: "01. Who are you?",
+			buttonLabel: "Next",
+			buttonBackgroundColor: "primary",
+			Form: FirstAndLastName,
+			enabled: scrollEnabled,
+		},
+		{
+			label: "02. Email and password",
+			buttonLabel: "Register",
+			buttonBackgroundColor: "secondary",
+			Form: EmailPassword,
+			enabled: submitEnabled,
+		},
+	]
+
+	const onSubmit = (data: signUpFormValues) => {
 		console.log(data)
 	}
 
@@ -98,7 +115,7 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 		setIsLast(last)
 
 		if (last) {
-			handleSubmit(onSubmit)
+			handleSubmit(onSubmit)()
 		} else {
 			scroll.current?.getNode().scrollTo({
 				x: width * (index + 1),
@@ -121,10 +138,9 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 
 	return (
 		<Box
-			paddingHorizontal={"m"}
 			flex={1}
 			backgroundColor={"grayBackground"}
-			style={{ paddingTop: theme.spacing.m * 2 }}
+			style={{ paddingTop: theme.spacing.m * 2, paddingHorizontal: 31 }}
 		>
 			<StatusBar style={"auto"} />
 			<Box style={{ paddingHorizontal: -2 }}>
@@ -199,7 +215,13 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 			>
 				{slides.map(
 					(
-						{ label, buttonLabel, buttonBackgroundColor, Form },
+						{
+							label,
+							buttonLabel,
+							buttonBackgroundColor,
+							enabled,
+							Form,
+						},
 						index
 					) => (
 						<Box
@@ -231,7 +253,7 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 								<Button
 									label={buttonLabel}
 									onPress={() => onPress(index)}
-									enabled={true}
+									enabled={enabled}
 									color={buttonBackgroundColor}
 								/>
 							</Box>

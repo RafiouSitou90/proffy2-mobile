@@ -12,7 +12,7 @@ const { width } = Dimensions.get("window")
 const EmailPassword = ({ errors, control }: SlideFormProps) => {
 	const theme = useTheme()
 
-	const [showPassword, setShowPassword] = useState<boolean>(false)
+	const [showPassword, setShowPassword] = useState<boolean>(true)
 
 	const emailInputRef = useRef<TextInput>(null)
 	const passwordInputRef = useRef<TextInput>(null)
@@ -98,7 +98,7 @@ const EmailPassword = ({ errors, control }: SlideFormProps) => {
 									}
 								>
 									<Icon
-										name={showPassword ? "eye-off" : "eye"}
+										name={showPassword ? "eye" : "eye-off"}
 										size={24}
 										color={theme.colors.primary}
 									/>
