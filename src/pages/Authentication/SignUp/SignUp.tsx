@@ -191,6 +191,7 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 				ref={scroll}
 				{...{ scrollEnabled }}
 				horizontal
+				snapToInterval={width}
 				decelerationRate="fast"
 				showsHorizontalScrollIndicator={false}
 				bounces={false}
