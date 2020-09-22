@@ -44,7 +44,7 @@ const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 		}
 	)
 
-	const [showPassword, setShowPassword] = useState<boolean>(false)
+	const [showPassword, setShowPassword] = useState<boolean>(true)
 	const [email, setEmail] = useState<string>("")
 	const [rememberMe, setRememberMe] = useState<boolean>(false)
 	const [isValidForm, setIsValidForm] = useState<boolean>(false)
@@ -67,8 +67,6 @@ const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 	const onSubmit = (data: any) => {
 		console.log(data)
 	}
-
-	console.log(errors)
 
 	return (
 		<Box flex={1} backgroundColor="grayBackground">
@@ -202,7 +200,7 @@ const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 									>
 										<Icon
 											name={
-												showPassword ? "eye-off" : "eye"
+												showPassword ? "eye" : "eye-off"
 											}
 											size={24}
 											color={theme.colors.primary}
