@@ -28,12 +28,12 @@ type signUpFormType = {
 	password: string
 }
 
-interface signUpFormValues {
-	name: string
-	lastName: string
-	email: string
-	password: string
-}
+// interface signUpFormValues {
+// 	name: string
+// 	lastName: string
+// 	email: string
+// 	password: string
+// }
 
 const signUpSchema = Yup.object().shape({
 	firstName: Yup.string().trim().required(),
@@ -107,8 +107,8 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 		},
 	]
 
-	const onSubmit = (data: signUpFormValues) => {
-		console.log(data)
+	const onSubmit = (/*data: signUpFormValues*/) => {
+		navigation.navigate("SignUpSuccessfully")
 	}
 
 	const onPress = (index: number) => {

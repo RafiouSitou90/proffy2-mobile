@@ -4,4 +4,5 @@ export {
 	ForgotPassword,
 	ResetPasswordSuccessfully,
 	SignUp,
+	SignUpSuccessfully,
 } from "./Authentication"
