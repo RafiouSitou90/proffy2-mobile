@@ -15,13 +15,16 @@ const FirstAndLastName = ({ errors, control }: SlideFormProps) => {
 	const lastNameInputRef = useRef<TextInput>(null)
 
 	return (
-		<>
+		<Box
+			style={{
+				width: width * 0.85,
+			}}
+		>
 			<Box
 				style={{
 					borderWidth: 1,
 					borderColor: theme.colors.athensGray,
 					backgroundColor: theme.colors.almostWhite,
-					width: width * 0.85,
 					height: 64,
 					borderTopLeftRadius: theme.borderRadii.ms,
 					borderTopRightRadius: theme.borderRadii.ms,
@@ -60,7 +63,6 @@ const FirstAndLastName = ({ errors, control }: SlideFormProps) => {
 					borderWidth: 1,
 					borderColor: theme.colors.athensGray,
 					backgroundColor: theme.colors.almostWhite,
-					width: width * 0.85,
 					height: 64,
 					borderBottomLeftRadius: theme.borderRadii.ms,
 					borderBottomRightRadius: theme.borderRadii.ms,
@@ -94,7 +96,7 @@ const FirstAndLastName = ({ errors, control }: SlideFormProps) => {
 					rules={{ required: true }}
 				/>
 			</Box>
-		</>
+		</Box>
 	)
 }
 

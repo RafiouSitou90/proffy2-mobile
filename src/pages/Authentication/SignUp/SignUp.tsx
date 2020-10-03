@@ -6,6 +6,7 @@ import { Control, useForm } from "react-hook-form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { Dimensions } from "react-native"
 import { BorderlessButton } from "react-native-gesture-handler"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import Animated, { divide } from "react-native-reanimated"
 import { useScrollHandler } from "react-native-redash"
 import * as Yup from "yup"
@@ -137,13 +138,14 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 	}
 
 	return (
-		<Box
-			flex={1}
-			backgroundColor={"grayBackground"}
-			style={{ paddingTop: theme.spacing.m * 2, paddingHorizontal: 31 }}
-		>
-			<StatusBar style={"auto"} />
-			<Box style={{ paddingHorizontal: -2 }}>
+		<Box flex={1} backgroundColor={"grayBackground"}>
+			<StatusBar style={"dark"} />
+			<Box
+				style={{
+					paddingTop: theme.spacing.m * 2,
+					paddingHorizontal: 31,
+				}}
+			>
 				<Box
 					flexDirection={"row"}
 					marginVertical={"xs"}
@@ -170,97 +172,105 @@ const SignUp = ({ navigation }: AuthenticationNavigationProps<"SignUp">) => {
 				</Box>
 			</Box>
 
-			<Box
-				marginTop={"xl"}
-				flexDirection={"column"}
-				justifyContent={"space-between"}
-				alignItems={"flex-start"}
+			<KeyboardAwareScrollView
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					flex: 1,
+					flexDirection: "column",
+					justifyContent: "space-between",
+					paddingHorizontal: 20,
+				}}
 			>
-				<Box>
-					<Text
-						style={{
-							fontFamily: "Poppins-Regular",
-							fontWeight: "600",
-							fontSize: 24,
-							lineHeight: 34,
-							color: theme.colors.martinique,
-						}}
-					>
-						Create your free{"\n"}account
-					</Text>
-				</Box>
-				<Box marginTop={"s"}>
-					<Text
-						style={{
-							fontFamily: "Poppins-Regular",
-							fontSize: 14,
-							lineHeight: 24,
-							color: theme.colors.martinique,
-						}}
-					>
-						Just fill in these details{"\n"}and you will be with us.
-					</Text>
-				</Box>
-			</Box>
-
-			<Animated.ScrollView
-				ref={scroll}
-				{...{ scrollEnabled }}
-				horizontal
-				snapToInterval={width}
-				decelerationRate="fast"
-				showsHorizontalScrollIndicator={false}
-				bounces={false}
-				{...scrollHandler}
-			>
-				{slides.map(
-					(
-						{
-							label,
-							buttonLabel,
-							buttonBackgroundColor,
-							enabled,
-							Form,
-						},
-						index
-					) => (
-						<Box
-							key={index}
-							marginBottom={"xl"}
-							justifyContent={"flex-end"}
+				<Box paddingTop={"xs"} style={{ paddingHorizontal: 12 }}>
+					<Box>
+						<Text
+							style={{
+								fontFamily: "Poppins-Regular",
+								fontWeight: "600",
+								fontSize: 24,
+								lineHeight: 34,
+								color: theme.colors.martinique,
+							}}
 						>
-							<Box marginBottom={"ms"}>
-								<Text
-									style={{
-										fontFamily: "Poppins-Regular",
-										fontWeight: "600",
-										fontSize: 24,
-										lineHeight: 26,
-										color: theme.colors.martinique,
-									}}
+							Create your free{"\n"}account
+						</Text>
+					</Box>
+					<Box marginTop={"s"}>
+						<Text
+							style={{
+								fontFamily: "Poppins-Regular",
+								fontSize: 14,
+								lineHeight: 24,
+								color: theme.colors.martinique,
+							}}
+						>
+							Just fill in these details{"\n"}and you will be with
+							us.
+						</Text>
+					</Box>
+				</Box>
+
+				<Box>
+					<Animated.ScrollView
+						ref={scroll}
+						{...{ scrollEnabled }}
+						horizontal
+						snapToInterval={width}
+						decelerationRate="fast"
+						showsHorizontalScrollIndicator={false}
+						bounces={false}
+						{...scrollHandler}
+					>
+						{slides.map(
+							(
+								{
+									label,
+									buttonLabel,
+									buttonBackgroundColor,
+									enabled,
+									Form,
+								},
+								index
+							) => (
+								<Box
+									key={index}
+									justifyContent={"flex-end"}
+									paddingHorizontal={"xs"}
 								>
-									{label}
-								</Text>
-							</Box>
+									<Box marginBottom={"ms"}>
+										<Text
+											style={{
+												fontFamily: "Poppins-Regular",
+												fontWeight: "600",
+												fontSize: 24,
+												lineHeight: 26,
+												color: theme.colors.martinique,
+											}}
+										>
+											{label}
+										</Text>
+									</Box>
 
-							<Form {...{ control, errors }} />
+									<Form {...{ control, errors }} />
 
-							<Box
-								justifyContent="center"
-								alignItems="center"
-								marginVertical={"m"}
-							>
-								<Button
-									label={buttonLabel}
-									onPress={() => onPress(index)}
-									enabled={enabled}
-									color={buttonBackgroundColor}
-								/>
-							</Box>
-						</Box>
-					)
-				)}
-			</Animated.ScrollView>
+									<Box
+										justifyContent="center"
+										alignItems="center"
+										marginVertical={"m"}
+									>
+										<Button
+											label={buttonLabel}
+											onPress={() => onPress(index)}
+											enabled={enabled}
+											color={buttonBackgroundColor}
+										/>
+									</Box>
+								</Box>
+							)
+						)}
+					</Animated.ScrollView>
+				</Box>
+			</KeyboardAwareScrollView>
 		</Box>
 	)
 }
