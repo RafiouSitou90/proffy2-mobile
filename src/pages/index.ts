@@ -6,3 +6,5 @@ export {
 	SignUp,
 	SignUpSuccessfully,
 } from "./Authentication"
+
+export { Home } from "./Main"
