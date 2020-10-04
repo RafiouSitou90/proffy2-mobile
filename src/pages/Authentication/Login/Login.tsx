@@ -64,8 +64,8 @@ const Login = ({ navigation }: AuthenticationNavigationProps<"Login">) => {
 		enabled ? setIsValidForm(true) : setIsValidForm(false)
 	}, [enabled])
 
-	const onSubmit = (data: any) => {
-		console.log(data)
+	const onSubmit = () => {
+		navigation.navigate("Home")
 	}
 
 	return (
