@@ -1,13 +1,15 @@
+import { Feather as Icon } from "@expo/vector-icons"
 import React from "react"
-import { Dimensions, Image } from "react-native"
-import { BorderlessButton } from "react-native-gesture-handler"
+import { Dimensions, Image, ImageBackground } from "react-native"
+import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 
 import backIcon from "../../../assets/images/icons/back.png"
 import logo from "../../../assets/images/logo.png"
+import bgImage_3 from "../../../assets/images/bgImage_3.png"
 
 import { Box, Text, useTheme } from "../../../theme"
 
-const { height } = Dimensions.get("window")
+const { height, width } = Dimensions.get("window")
 
 const Profile = () => {
 	const theme = useTheme()
@@ -56,7 +58,84 @@ const Profile = () => {
 					</Box>
 				</Box>
 			</Box>
-			<Box height={height * 0.4} backgroundColor={"primary"}></Box>
+			<Box
+				height={height * 0.5}
+				backgroundColor={"primary"}
+				justifyContent={"center"}
+				alignItems={"center"}
+			>
+				<ImageBackground
+					source={bgImage_3}
+					style={{
+						width: width * 0.7,
+						height: width * 0.7,
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+					resizeMode="contain"
+				>
+					<Box>
+						<Image
+							source={{
+								uri:
+									"https://avatars3.githubusercontent.com/u/39632507?s=460&u=b5f5e665e6b249f4202b50f622e4df6260331624&v=4",
+							}}
+							style={{
+								width: 140,
+								height: 140,
+								borderRadius: 70,
+							}}
+						/>
+						<Box position={"absolute"} right={0} bottom={0}>
+							<RectButton
+								style={{
+									justifyContent: "center",
+									alignItems: "center",
+									backgroundColor: theme.colors.secondary,
+									height: 40,
+									width: 40,
+									borderRadius: 20,
+								}}
+							>
+								<Icon
+									name={"camera"}
+									size={20}
+									color={theme.colors.white}
+								/>
+							</RectButton>
+						</Box>
+					</Box>
+
+					<Box marginTop={"m"}>
+						<Text
+							style={{
+								fontFamily: "Archivo-Regular",
+								fontWeight: "bold",
+								fontSize: 24,
+								lineHeight: 25,
+								textAlign: "center",
+								color: theme.colors.white,
+							}}
+						>
+							Rafiou Sitou
+						</Text>
+						<Box marginTop={"xs"}>
+							<Text
+								style={{
+									fontFamily: "Poppins-Regular",
+									fontWeight: "normal",
+									fontSize: 16,
+									lineHeight: 26,
+									textAlign: "center",
+									color: theme.colors.melRose,
+								}}
+							>
+								History
+							</Text>
+						</Box>
+					</Box>
+				</ImageBackground>
+			</Box>
 		</Box>
 	)
 }
