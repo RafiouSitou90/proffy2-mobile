@@ -7,4 +7,4 @@ export {
 	SignUpSuccessfully,
 } from "./Authentication"
 
-export { Home } from "./Main"
+export { Home, Profile } from "./Main"

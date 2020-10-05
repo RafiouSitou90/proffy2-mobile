@@ -1,16 +1,19 @@
 import { Feather as Icon } from "@expo/vector-icons"
+import { useNavigation } from "@react-navigation/native"
 import React from "react"
 import { Image } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 
-import { Box, Text, useTheme } from "../../../theme"
-
-import bgImage_2 from "../../../assets/images/landing.png"
-import studyIcon from "../../../assets/images/icons/study.png"
 import giveClassesIcon from "../../../assets/images/icons/give-classes.png"
 import heartIcon from "../../../assets/images/icons/heart.png"
+import studyIcon from "../../../assets/images/icons/study.png"
+
+import bgImage_2 from "../../../assets/images/landing.png"
+
+import { Box, Text, useTheme } from "../../../theme"
 
 const Home = () => {
+	const navigation = useNavigation()
 	const theme = useTheme()
 
 	return (
@@ -33,6 +36,7 @@ const Home = () => {
 						alignItems={"center"}
 					>
 						<RectButton
+							onPress={() => navigation.navigate("Profile")}
 							style={{
 								flexDirection: "row",
 								justifyContent: "space-between",
