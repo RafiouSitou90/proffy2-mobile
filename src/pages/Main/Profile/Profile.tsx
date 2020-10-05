@@ -1,6 +1,6 @@
 import { Feather as Icon } from "@expo/vector-icons"
 import React from "react"
-import { Dimensions, Image, ImageBackground } from "react-native"
+import { Dimensions, Image, ImageBackground, ScrollView } from "react-native"
 import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 
 import backIcon from "../../../assets/images/icons/back.png"
@@ -145,7 +145,13 @@ const Profile = () => {
 				borderRadius={"ms"}
 				top={-40}
 			>
-				<Box paddingHorizontal={"ms"} paddingVertical={"m"}>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={{
+						paddingHorizontal: theme.spacing.ms,
+						paddingVertical: theme.spacing.m,
+					}}
+				>
 					<Box
 						borderBottomWidth={1}
 						borderBottomColor={"athensGray"}
@@ -166,7 +172,44 @@ const Profile = () => {
 					<Box marginTop={"m"}>
 						<TextInputField label={"FirstName"} />
 					</Box>
-				</Box>
+					<Box marginTop={"m"}>
+						<TextInputField label={"LastName"} />
+					</Box>
+					<Box marginTop={"m"}>
+						<TextInputField label={"Email"} />
+					</Box>
+					<Box marginTop={"m"}>
+						<TextInputField label={"WhatsApp"} />
+					</Box>
+					<Box marginTop={"m"}>
+						<TextInputField label={"Bio"} />
+					</Box>
+
+					<Box
+						borderBottomWidth={1}
+						borderBottomColor={"athensGray"}
+						marginTop={"m"}
+						paddingBottom={"s"}
+					>
+						<Text
+							style={{
+								fontFamily: "Archivo-Medium",
+								fontWeight: "600",
+								fontSize: 20,
+								lineHeight: 30,
+								color: theme.colors.martinique,
+							}}
+						>
+							About the class
+						</Text>
+					</Box>
+					<Box marginTop={"m"}>
+						<TextInputField label={"Subject"} />
+					</Box>
+					<Box marginTop={"m"}>
+						<TextInputField label={"Cost of your hour per class"} />
+					</Box>
+				</ScrollView>
 			</Box>
 		</Box>
 	)
