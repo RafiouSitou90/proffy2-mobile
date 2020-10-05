@@ -1,6 +1,6 @@
 import { Feather as Icon } from "@expo/vector-icons"
 import React from "react"
-import { Dimensions, Image, ImageBackground, TextInput } from "react-native"
+import { Dimensions, Image, ImageBackground } from "react-native"
 import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 
 import backIcon from "../../../assets/images/icons/back.png"
@@ -8,6 +8,7 @@ import logo from "../../../assets/images/logo.png"
 import bgImage_3 from "../../../assets/images/bgImage_3.png"
 
 import { Box, Text, useTheme } from "../../../theme"
+import TextInputField from "../components/TextInputField"
 
 const { height, width } = Dimensions.get("window")
 
@@ -162,40 +163,8 @@ const Profile = () => {
 							Your data
 						</Text>
 					</Box>
-					<Box marginVertical={"m"}>
-						<Text
-							style={{
-								fontFamily: "Poppins-Regular",
-								fontSize: 12,
-								lineHeight: 22,
-								color: theme.colors.santaGray,
-							}}
-						>
-							Name
-						</Text>
-						<Box
-							height={56}
-							backgroundColor={"almostWhite"}
-							borderWidth={1}
-							borderRadius={"ms"}
-							borderColor={"athensGray"}
-							style={{ marginTop: 4 }}
-						>
-							<TextInput
-								placeholder={"Name"}
-								placeholderTextColor={theme.colors.athensGray}
-								style={{
-									flex: 1,
-									fontFamily: "Poppins-Regular",
-									fontWeight: "normal",
-									fontSize: 14,
-									lineHeight: 24,
-									color: theme.colors.dolphin,
-									paddingHorizontal: theme.spacing.ms,
-									paddingVertical: theme.spacing.s,
-								}}
-							/>
-						</Box>
+					<Box marginTop={"m"}>
+						<TextInputField label={"FirstName"} />
 					</Box>
 				</Box>
 			</Box>
