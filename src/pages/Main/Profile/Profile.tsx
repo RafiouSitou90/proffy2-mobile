@@ -1,6 +1,6 @@
 import { Feather as Icon } from "@expo/vector-icons"
 import React from "react"
-import { Dimensions, Image, ImageBackground } from "react-native"
+import { Dimensions, Image, ImageBackground, TextInput } from "react-native"
 import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 
 import backIcon from "../../../assets/images/icons/back.png"
@@ -58,6 +58,7 @@ const Profile = () => {
 					</Box>
 				</Box>
 			</Box>
+
 			<Box
 				height={height * 0.5}
 				backgroundColor={"primary"}
@@ -135,6 +136,68 @@ const Profile = () => {
 						</Box>
 					</Box>
 				</ImageBackground>
+			</Box>
+			<Box
+				flex={1}
+				marginHorizontal={"s"}
+				backgroundColor={"white"}
+				borderRadius={"ms"}
+				top={-40}
+			>
+				<Box paddingHorizontal={"ms"} paddingVertical={"m"}>
+					<Box
+						borderBottomWidth={1}
+						borderBottomColor={"athensGray"}
+						paddingBottom={"s"}
+					>
+						<Text
+							style={{
+								fontFamily: "Archivo-Medium",
+								fontWeight: "600",
+								fontSize: 20,
+								lineHeight: 30,
+								color: theme.colors.martinique,
+							}}
+						>
+							Your data
+						</Text>
+					</Box>
+					<Box marginVertical={"m"}>
+						<Text
+							style={{
+								fontFamily: "Poppins-Regular",
+								fontSize: 12,
+								lineHeight: 22,
+								color: theme.colors.santaGray,
+							}}
+						>
+							Name
+						</Text>
+						<Box
+							height={56}
+							backgroundColor={"almostWhite"}
+							borderWidth={1}
+							borderRadius={"ms"}
+							borderColor={"athensGray"}
+							style={{ marginTop: 4 }}
+						>
+							<TextInput
+								placeholder={"Name"}
+								placeholderTextColor={theme.colors.athensGray}
+								style={{
+									flex: 1,
+									fontFamily: "Poppins-Regular",
+									fontWeight: "normal",
+									fontSize: 14,
+									lineHeight: 24,
+									color: theme.colors.dolphin,
+									paddingHorizontal: theme.spacing.ms,
+									paddingVertical: theme.spacing.s,
+								}}
+							/>
+						</Box>
+					</Box>
+				</Box>
 			</Box>
 		</Box>
 	)
